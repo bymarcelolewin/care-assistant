@@ -1,0 +1,101 @@
+graph TB
+    subgraph "User Layer"
+        A[Web Browser]
+    end
+
+    subgraph "Frontend Layer"
+        B[HTML/CSS/JS Interface]
+        B1[Chat UI]
+        B2[Thinking Process View<br/>Collapsible]
+    end
+
+    subgraph "Backend Layer - FastAPI"
+        C[REST API Endpoints]
+        C1["POST /chat"]
+        C2["GET /users"]
+    end
+
+    subgraph "LangGraph Agent Layer"
+        D[Agent Entry Point]
+        E[Identify User Node]
+        F[Classify Intent Node]
+        G[Route to Tool Node]
+        H[Coverage Lookup Tool]
+        I[Benefit Verification Tool]
+        J[Claims Status Tool]
+        K[Generate Response Node]
+        L[State Manager]
+    end
+
+    subgraph "Data Layer"
+        M[Mock Data Service]
+        M1[(User Profiles JSON)]
+        M2[(Insurance Plans JSON)]
+        M3[(Claims Records JSON)]
+    end
+
+    subgraph "LLM Layer"
+        N[Ollama<br/>Local LLM]
+    end
+
+    %% User interactions
+    A -->|Opens| B
+    B --> B1
+    B --> B2
+    B1 -->|Send Message| C
+
+    %% API routing
+    C --> C1
+    C --> C2
+    C1 -->|Invoke Agent| D
+
+    %% LangGraph execution flow
+    D -->|Initialize State| L
+    D --> E
+    E -->|Edge: User Identified| F
+    F -->|Edge: Needs Coverage Info| G
+    G -->|Conditional Edge| H
+    G -->|Conditional Edge| I
+    G -->|Conditional Edge| J
+    H --> K
+    I --> K
+    J --> K
+    K -->|Update State| L
+
+    %% State and data access
+    L -.->|Read/Write State| E
+    L -.->|Read/Write State| F
+    L -.->|Read/Write State| G
+    L -.->|Read/Write State| K
+
+    %% Tools accessing data
+    H -->|Query| M
+    I -->|Query| M
+    J -->|Query| M
+    M --> M1
+    M --> M2
+    M --> M3
+
+    %% LLM calls
+    F -.->|LLM Call| N
+    K -.->|LLM Call| N
+
+    %% Response flow back
+    K -->|Response + Trace| C1
+    C1 -->|JSON Response| B1
+    C1 -->|Execution Trace| B2
+
+    %% Styling
+    classDef userLayer fill:#e1f5ff,stroke:#01579b,stroke-width:2px,color:#000
+    classDef frontendLayer fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000
+    classDef backendLayer fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000
+    classDef agentLayer fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px,color:#000
+    classDef dataLayer fill:#fce4ec,stroke:#880e4f,stroke-width:2px,color:#000
+    classDef llmLayer fill:#fff9c4,stroke:#f57f17,stroke-width:2px,color:#000
+
+    class A userLayer
+    class B,B1,B2 frontendLayer
+    class C,C1,C2 backendLayer
+    class D,E,F,G,H,I,J,K,L agentLayer
+    class M,M1,M2,M3 dataLayer
+    class N llmLayer

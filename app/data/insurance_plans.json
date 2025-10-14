@@ -1,0 +1,215 @@
+{
+  "plans": [
+    {
+      "plan_id": "ppo_gold",
+      "plan_name": "PPO Gold",
+      "plan_type": "PPO",
+      "monthly_premium": 450,
+      "description": "Preferred Provider Organization with broad network and no referral requirements",
+      "coverage": {
+        "primary_care": {
+          "in_network": {
+            "copay": 25,
+            "coverage_percent": 100,
+            "notes": "After copay, fully covered"
+          },
+          "out_of_network": {
+            "copay": 0,
+            "coverage_percent": 70,
+            "notes": "Subject to deductible, then 70% covered"
+          }
+        },
+        "specialist": {
+          "in_network": {
+            "copay": 50,
+            "coverage_percent": 100,
+            "notes": "No referral needed. After copay, fully covered"
+          },
+          "out_of_network": {
+            "copay": 0,
+            "coverage_percent": 60,
+            "notes": "Subject to deductible, then 60% covered"
+          }
+        },
+        "emergency_room": {
+          "copay": 250,
+          "coverage_percent": 100,
+          "notes": "Copay waived if admitted. Fully covered after copay"
+        },
+        "urgent_care": {
+          "in_network": {
+            "copay": 50,
+            "coverage_percent": 100
+          }
+        },
+        "prescription_drugs": {
+          "generic": {
+            "copay": 10,
+            "coverage_percent": 100
+          },
+          "brand_name": {
+            "copay": 50,
+            "coverage_percent": 100
+          },
+          "specialty": {
+            "copay": 150,
+            "coverage_percent": 100
+          }
+        },
+        "preventive_care": {
+          "coverage_percent": 100,
+          "copay": 0,
+          "notes": "Annual physicals, screenings, and vaccines fully covered"
+        },
+        "mental_health": {
+          "in_network": {
+            "copay": 25,
+            "coverage_percent": 100,
+            "notes": "Same as primary care visit"
+          }
+        }
+      }
+    },
+    {
+      "plan_id": "hmo_silver",
+      "plan_name": "HMO Silver",
+      "plan_type": "HMO",
+      "monthly_premium": 350,
+      "description": "Health Maintenance Organization requiring primary care physician and referrals",
+      "coverage": {
+        "primary_care": {
+          "in_network": {
+            "copay": 30,
+            "coverage_percent": 100,
+            "notes": "Must select PCP. After copay, fully covered"
+          },
+          "out_of_network": {
+            "coverage_percent": 0,
+            "notes": "No coverage except emergency"
+          }
+        },
+        "specialist": {
+          "in_network": {
+            "copay": 60,
+            "coverage_percent": 100,
+            "notes": "Referral required from PCP. After copay, fully covered"
+          },
+          "out_of_network": {
+            "coverage_percent": 0,
+            "notes": "No coverage except emergency"
+          }
+        },
+        "emergency_room": {
+          "copay": 350,
+          "coverage_percent": 100,
+          "notes": "Covered in and out of network. Copay waived if admitted"
+        },
+        "urgent_care": {
+          "in_network": {
+            "copay": 75,
+            "coverage_percent": 100
+          }
+        },
+        "prescription_drugs": {
+          "generic": {
+            "copay": 15,
+            "coverage_percent": 100
+          },
+          "brand_name": {
+            "copay": 65,
+            "coverage_percent": 100
+          },
+          "specialty": {
+            "copay": 200,
+            "coverage_percent": 80,
+            "notes": "Subject to 20% coinsurance after copay"
+          }
+        },
+        "preventive_care": {
+          "coverage_percent": 100,
+          "copay": 0,
+          "notes": "Annual physicals and screenings fully covered"
+        },
+        "mental_health": {
+          "in_network": {
+            "copay": 30,
+            "coverage_percent": 100,
+            "notes": "Same as primary care visit, may require referral"
+          }
+        }
+      }
+    },
+    {
+      "plan_id": "epo_bronze",
+      "plan_name": "EPO Bronze",
+      "plan_type": "EPO",
+      "monthly_premium": 275,
+      "description": "Exclusive Provider Organization with in-network only coverage, no referrals needed",
+      "coverage": {
+        "primary_care": {
+          "in_network": {
+            "copay": 0,
+            "coverage_percent": 70,
+            "notes": "Subject to deductible, then 70% coinsurance"
+          },
+          "out_of_network": {
+            "coverage_percent": 0,
+            "notes": "No coverage except emergency"
+          }
+        },
+        "specialist": {
+          "in_network": {
+            "copay": 0,
+            "coverage_percent": 70,
+            "notes": "No referral needed. Subject to deductible, then 70% coinsurance"
+          },
+          "out_of_network": {
+            "coverage_percent": 0,
+            "notes": "No coverage except emergency"
+          }
+        },
+        "emergency_room": {
+          "copay": 0,
+          "coverage_percent": 70,
+          "notes": "Subject to deductible, then 70% coinsurance. Covered in and out of network"
+        },
+        "urgent_care": {
+          "in_network": {
+            "copay": 0,
+            "coverage_percent": 70,
+            "notes": "Subject to deductible, then 70% coinsurance"
+          }
+        },
+        "prescription_drugs": {
+          "generic": {
+            "copay": 0,
+            "coverage_percent": 100,
+            "notes": "After deductible, fully covered"
+          },
+          "brand_name": {
+            "copay": 0,
+            "coverage_percent": 70,
+            "notes": "Subject to deductible, then 70% coinsurance"
+          },
+          "specialty": {
+            "copay": 0,
+            "coverage_percent": 50,
+            "notes": "Subject to deductible, then 50% coinsurance"
+          }
+        },
+        "preventive_care": {
+          "coverage_percent": 100,
+          "copay": 0,
+          "notes": "Preventive services fully covered, not subject to deductible"
+        },
+        "mental_health": {
+          "in_network": {
+            "copay": 0,
+            "coverage_percent": 70,
+            "notes": "Subject to deductible, then 70% coinsurance"
+          }
+        }
+      }
+    }
+  ]
+}
