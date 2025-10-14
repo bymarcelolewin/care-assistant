@@ -36,7 +36,6 @@ htmlcov/
 *.cover
 
 # Distribution / packaging
-build/
 dist/
 *.egg-info/
 
