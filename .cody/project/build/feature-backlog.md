@@ -33,7 +33,7 @@ Set up the development environment, dependencies, and foundational data structur
 | V1-7 | Basic FastAPI Server | Set up minimal FastAPI application with health check endpoint | High | 🟢 Completed |
 | V1-8 | Verify Ollama Connection | Test connection to local Ollama instance and list available models | High | 🟢 Completed |
 
-## Version 0.2.0 - Core Agent - 🔴 Not Started
+## Version 0.2.0 - Core Agent - 🟢 Completed
 Build the core LangGraph agent with state management, tools, and basic conversation flow.
 
 | ID  | Feature                 | Description                              | Priority | Status |
@@ -42,28 +42,37 @@ Build the core LangGraph agent with state management, tools, and basic conversat
 | V2-2 | Coverage Lookup Tool | Implement tool to query user's coverage details from mock data | High | 🟢 Completed |
 | V2-3 | Benefit Verification Tool | Implement tool to check if specific services are covered | High | 🟢 Completed |
 | V2-4 | Claims Status Tool | Implement tool to retrieve claims history and status | Medium | 🟢 Completed |
-| V2-5 | Identify User Node | Create node that identifies or confirms user identity | High | 🟢 Completed |
-| V2-6 | Classify Intent Node | Create node that determines user's intent using LLM | High | 🟢 Completed |
-| V2-7 | Route to Tool Node | Create node that routes to appropriate tool based on intent | High | 🟢 Completed |
-| V2-8 | Generate Response Node | Create node that generates conversational response using LLM | High | 🟢 Completed |
-| V2-9 | Connect Graph Edges | Define edges connecting nodes, including conditional routing | High | 🟢 Completed |
-| V2-10 | Ollama Integration | Integrate LangChain's Ollama LLM for node operations | High | 🟢 Completed |
-| V2-11 | Basic Conversation Test | Test agent with simple conversation flow in CLI or script | High | 🟢 Completed |
+| V2-5 | Identify User Node | Create node that identifies or confirms user identity by name (conversational) | High | 🟢 Completed |
+| V2-6 | LLM-Based Orchestrator Node | Create node that uses LLM to intelligently select and call multiple tools | High | 🟢 Completed |
+| V2-7 | Generate Response Node | Create node that generates conversational response using LLM and tool results | High | 🟢 Completed |
+| V2-8 | Connect Graph Edges | Define edges connecting nodes, including conditional routing for user identification | High | 🟢 Completed |
+| V2-9 | Ollama Integration | Integrate LangChain's Ollama LLM for node operations | High | 🟢 Completed |
+| V2-10 | Interactive CLI Testing | Build interactive CLI with trace/state commands for testing | High | 🟢 Completed |
+| V2-11 | Execution Trace System | Implement detailed execution tracking for learning and debugging | High | 🟢 Completed |
 
 ## Version 0.3.0 - Web Interface - 🔴 Not Started
-Create the web-based user interface for interacting with the agent.
+Create a modern web-based user interface for interacting with the agent using shadcn/ui components. Maintains all v0.2.0 functionality (LLM-based orchestration, multi-tool handling, conversational user identification, execution traces) with polished UX.
+
+**Tech Stack:** React + Next.js + TypeScript + shadcn/ui + Tailwind CSS
+**UI Design:** Main chat window + collapsible developer panel (VS Code terminal style) for trace/state visualization
 
 | ID  | Feature                 | Description                              | Priority | Status |
 |-----|-------------------------|------------------------------------------|----------|--------|
-| V3-1 | Chat UI Layout | Build HTML/CSS layout with message display and input field | High | 🔴 Not Started |
-| V3-2 | User Selection Dropdown | Add UI element to select which mock user profile to use | High | 🔴 Not Started |
-| V3-3 | Message Send/Receive | Implement JavaScript to send messages and display responses | High | 🔴 Not Started |
-| V3-4 | POST /chat Endpoint | Create FastAPI endpoint that accepts messages and invokes agent | High | 🔴 Not Started |
-| V3-5 | GET /users Endpoint | Create endpoint to retrieve list of available user profiles | Medium | 🔴 Not Started |
-| V3-6 | Static File Serving | Configure FastAPI to serve HTML/CSS/JS files | High | 🔴 Not Started |
-| V3-7 | Basic Execution Tracking | Capture and return basic execution trace (nodes visited) | Medium | 🔴 Not Started |
-| V3-8 | Collapsible Thinking View | Add collapsible section to display execution trace | Medium | 🔴 Not Started |
-| V3-9 | End-to-End Web Test | Test complete flow from browser through agent and back | High | 🔴 Not Started |
+| V3-1 | Next.js Project Setup | Initialize Next.js project with TypeScript, install shadcn/ui components and dependencies | High | 🔴 Not Started |
+| V3-2 | Chat UI with shadcn/ui | Build chat interface using shadcn/ui components (Card, ScrollArea, Input, Button) | High | 🔴 Not Started |
+| V3-3 | Conversational User Identification | AI greets with "What's your name?" - user types name (matching CLI behavior from v0.2.0) | High | 🔴 Not Started |
+| V3-4 | Message Send/Receive | Implement message submission and real-time response display with streaming support | High | 🔴 Not Started |
+| V3-5 | Developer Panel UI | Create VS Code-style bottom panel for trace + state visualization (collapsible) | High | 🔴 Not Started |
+| V3-6 | Execution Trace Display | Display execution trace in developer panel using shadcn/ui components (Tabs, Collapsible, Badge) | Medium | 🔴 Not Started |
+| V3-7 | State Visualization | Show current conversation state in developer panel (user profile, tool results, context) | Medium | 🔴 Not Started |
+| V3-8 | POST /chat Endpoint | Create FastAPI endpoint that accepts messages, invokes agent, returns response + trace + state | High | 🔴 Not Started |
+| V3-9 | WebSocket Streaming (Optional) | Implement WebSocket for streaming LLM responses token-by-token | Medium | 🔴 Not Started |
+| V3-10 | Session Management | Maintain conversation state across HTTP requests using session IDs | High | 🔴 Not Started |
+| V3-11 | Static Frontend Serving | Configure FastAPI to serve Next.js build output | High | 🔴 Not Started |
+| V3-12 | Multi-Tool Response Display | Properly display responses from multiple tool calls in single turn | High | 🔴 Not Started |
+| V3-13 | Error Handling UI | User-friendly error messages when Ollama fails or tools error | Medium | 🔴 Not Started |
+| V3-14 | Loading States | Show loading indicators during LLM processing and tool execution | Medium | 🔴 Not Started |
+| V3-15 | End-to-End Web Test | Test complete flow: name entry → conversation → tool calls → trace visibility | High | 🔴 Not Started |
 
 ## Version 1.0.0 - Enhanced Learning Features - 🔴 Not Started
 Polish the application with enhanced visibility, documentation, and learning features.
