@@ -18,8 +18,7 @@ graph TB
     subgraph "LangGraph Agent Layer"
         D[Agent Entry Point]
         E[Identify User Node]
-        F[Classify Intent Node]
-        G[Route to Tool Node]
+        F[Orchestrate Tools Node<br/>LLM-based multi-tool coordinator]
         H[Coverage Lookup Tool]
         I[Benefit Verification Tool]
         J[Claims Status Tool]
@@ -52,20 +51,16 @@ graph TB
     %% LangGraph execution flow
     D -->|Initialize State| L
     D --> E
-    E -->|Edge: User Identified| F
-    F -->|Edge: Needs Coverage Info| G
-    G -->|Conditional Edge| H
-    G -->|Conditional Edge| I
-    G -->|Conditional Edge| J
-    H --> K
-    I --> K
-    J --> K
+    E -->|Conditional Edge:<br/>User Identified?| F
+    F -->|Calls multiple tools<br/>as needed| H
+    F -->|Calls multiple tools<br/>as needed| I
+    F -->|Calls multiple tools<br/>as needed| J
+    F -->|All tools complete| K
     K -->|Update State| L
 
     %% State and data access
     L -.->|Read/Write State| E
     L -.->|Read/Write State| F
-    L -.->|Read/Write State| G
     L -.->|Read/Write State| K
 
     %% Tools accessing data
@@ -77,8 +72,9 @@ graph TB
     M --> M3
 
     %% LLM calls
-    F -.->|LLM Call| N
-    K -.->|LLM Call| N
+    E -.->|LLM Call for<br/>name lookup| N
+    F -.->|LLM Call with<br/>tool binding| N
+    K -.->|LLM Call for<br/>response generation| N
 
     %% Response flow back
     K -->|Response + Trace| C1
@@ -96,6 +92,6 @@ graph TB
     class A userLayer
     class B,B1,B2 frontendLayer
     class C,C1,C2 backendLayer
-    class D,E,F,G,H,I,J,K,L agentLayer
+    class D,E,F,H,I,J,K,L agentLayer
     class M,M1,M2,M3 dataLayer
     class N llmLayer

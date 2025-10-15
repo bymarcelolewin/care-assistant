@@ -43,7 +43,7 @@ This plan implements CARE (Coverage Analysis and Recommendation Engine) Assistan
 
 ## Components
 
-- **LangGraph Agent**: Core conversational agent built with nodes, edges, and state management. Demonstrates graph structure, routing logic, and tool integration.
+- **LangGraph Agent**: Core conversational agent built with nodes, edges, and state management. Demonstrates graph structure, LLM-based tool orchestration (eliminating manual intent classification), and multi-tool integration.
 
 - **Tools Module**: Collection of callable functions for insurance operations (coverage lookup, benefit verification, claims status). Shows how to integrate external functionality with LangGraph.
 
@@ -104,9 +104,9 @@ This plan implements CARE (Coverage Analysis and Recommendation Engine) Assistan
 
 4. **Define LangGraph State**: Create state schema with messages, user context, and execution tracking
 
-5. **Build Graph Nodes**: Implement nodes for user identification, intent classification, tool routing, and response generation
+5. **Build Graph Nodes**: Implement nodes for user identification, tool orchestration (LLM-based multi-tool coordinator), and response generation
 
-6. **Connect Graph with Edges**: Define conditional edges that route based on user intent and state
+6. **Connect Graph with Edges**: Define conditional edges for user identification; orchestrator uses LLM with tool binding to intelligently call multiple tools
 
 7. **Integrate Ollama**: Set up LangChain's Ollama integration for local LLM calls
 
@@ -118,7 +118,7 @@ This plan implements CARE (Coverage Analysis and Recommendation Engine) Assistan
 
 11. **Add Code Documentation**: Write extensive inline comments explaining LangGraph concepts
 
-12. **Test End-to-End**: Verify state persistence, tool calling, conditional routing, and visualization
+12. **Test End-to-End**: Verify state persistence, multi-tool orchestration, LLM-based tool selection, and visualization
 
 ## Tools & Services
 

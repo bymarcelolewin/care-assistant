@@ -36,7 +36,7 @@ _What core features are required to meet the goals?_
 
 - **Conversational Agent**: Insurance coverage assistant that answers questions about benefits and coverage
 - **Mock User Data**: Multiple simulated user profiles with different insurance plans and coverage details
-- **Tool Integration**: Demonstrates LangGraph tools through coverage lookup, benefit verification, and claims status functions
+- **Tool Integration**: Demonstrates LangGraph tools through coverage lookup, benefit verification, and claims status functions with intelligent LLM-based orchestration for multi-tool scenarios
 - **State Management**: Maintains conversation context across multiple turns (user identity, conversation history, retrieved data)
 - **Graph Visualization**: Shows the agent's execution path through nodes and edges
 - **Thinking Process Display**: Collapsible view showing internal reasoning, tool calls, and state transitions
@@ -51,7 +51,7 @@ _How do we know it worked?_
 - **State Persistence**: Learner can observe conversation state carrying over between turns
 - **Tool Usage Clarity**: Tool calls are visible and their integration pattern is clear
 - **Graph Structure Understanding**: Learner can explain how nodes and edges define the conversation flow
-- **Conditional Logic Visibility**: Different execution paths based on user input are observable
+- **Multi-Intent Handling**: Learner can observe how the orchestrator handles complex questions requiring multiple tools (e.g., "What plan do I have, what does it cover, and do I have pending claims?")
 - **Modification Capability**: Learner can successfully add a new tool or modify existing behavior
 - **Local Execution**: Application runs entirely locally without external API calls
 - **Clear Learning Path**: Code comments and structure guide the learner through LangGraph concepts

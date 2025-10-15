@@ -38,17 +38,17 @@ Build the core LangGraph agent with state management, tools, and basic conversat
 
 | ID  | Feature                 | Description                              | Priority | Status |
 |-----|-------------------------|------------------------------------------|----------|--------|
-| V2-1 | LangGraph State Schema | Define ConversationState with messages, user context, tool results, and execution trace | High | 🔴 Not Started |
-| V2-2 | Coverage Lookup Tool | Implement tool to query user's coverage details from mock data | High | 🔴 Not Started |
-| V2-3 | Benefit Verification Tool | Implement tool to check if specific services are covered | High | 🔴 Not Started |
-| V2-4 | Claims Status Tool | Implement tool to retrieve claims history and status | Medium | 🔴 Not Started |
-| V2-5 | Identify User Node | Create node that identifies or confirms user identity | High | 🔴 Not Started |
-| V2-6 | Classify Intent Node | Create node that determines user's intent using LLM | High | 🔴 Not Started |
-| V2-7 | Route to Tool Node | Create node that routes to appropriate tool based on intent | High | 🔴 Not Started |
-| V2-8 | Generate Response Node | Create node that generates conversational response using LLM | High | 🔴 Not Started |
-| V2-9 | Connect Graph Edges | Define edges connecting nodes, including conditional routing | High | 🔴 Not Started |
-| V2-10 | Ollama Integration | Integrate LangChain's Ollama LLM for node operations | High | 🔴 Not Started |
-| V2-11 | Basic Conversation Test | Test agent with simple conversation flow in CLI or script | High | 🔴 Not Started |
+| V2-1 | LangGraph State Schema | Define ConversationState with messages, user context, tool results, and execution trace | High | 🟢 Completed |
+| V2-2 | Coverage Lookup Tool | Implement tool to query user's coverage details from mock data | High | 🟢 Completed |
+| V2-3 | Benefit Verification Tool | Implement tool to check if specific services are covered | High | 🟢 Completed |
+| V2-4 | Claims Status Tool | Implement tool to retrieve claims history and status | Medium | 🟢 Completed |
+| V2-5 | Identify User Node | Create node that identifies or confirms user identity | High | 🟢 Completed |
+| V2-6 | Classify Intent Node | Create node that determines user's intent using LLM | High | 🟢 Completed |
+| V2-7 | Route to Tool Node | Create node that routes to appropriate tool based on intent | High | 🟢 Completed |
+| V2-8 | Generate Response Node | Create node that generates conversational response using LLM | High | 🟢 Completed |
+| V2-9 | Connect Graph Edges | Define edges connecting nodes, including conditional routing | High | 🟢 Completed |
+| V2-10 | Ollama Integration | Integrate LangChain's Ollama LLM for node operations | High | 🟢 Completed |
+| V2-11 | Basic Conversation Test | Test agent with simple conversation flow in CLI or script | High | 🟢 Completed |
 
 ## Version 0.3.0 - Web Interface - 🔴 Not Started
 Create the web-based user interface for interacting with the agent.
