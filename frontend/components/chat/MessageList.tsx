@@ -3,16 +3,18 @@
 import { useEffect, useRef } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { ThinkingIndicator } from "./ThinkingIndicator"
 import { Message } from "@/lib/types"
 
 interface MessageListProps {
   messages: Message[]
+  isLoading?: boolean
 }
 
-export function MessageList({ messages }: MessageListProps) {
+export function MessageList({ messages, isLoading = false }: MessageListProps) {
   const scrollAreaRef = useRef<HTMLDivElement>(null)
 
-  // Auto-scroll to bottom when new messages arrive
+  // Auto-scroll to bottom when new messages arrive or loading state changes
   useEffect(() => {
     if (scrollAreaRef.current) {
       const scrollViewport = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]')
@@ -20,7 +22,7 @@ export function MessageList({ messages }: MessageListProps) {
         scrollViewport.scrollTop = scrollViewport.scrollHeight
       }
     }
-  }, [messages])
+  }, [messages, isLoading])
 
   if (messages.length === 0) {
     return (
@@ -32,14 +34,14 @@ export function MessageList({ messages }: MessageListProps) {
 
   return (
     <ScrollArea className="h-full w-full" ref={scrollAreaRef}>
-      <div className="space-y-4 pt-4 pb-4 px-6">
+      <div className="space-y-4 pt-4 pb-5 px-6">
         {messages.map((message) => (
           <Card
             key={message.id}
-            className={`max-w-[80%] ${
+            className={`max-w-[80%] border-0 ${
               message.role === "user"
-                ? "ml-auto bg-slate-600 text-white"
-                : "mr-auto bg-muted"
+                ? "ml-auto bg-slate-500 text-white rounded-tl-xl rounded-tr-none rounded-br-xl rounded-bl-xl"
+                : "mr-auto bg-muted rounded-tl-xl rounded-tr-xl rounded-br-xl rounded-bl-none"
             } ${message.isProgress ? "opacity-70 italic" : ""}`}
           >
             <CardContent className="p-4">
@@ -57,6 +59,7 @@ export function MessageList({ messages }: MessageListProps) {
             </CardContent>
           </Card>
         ))}
+        {isLoading && <ThinkingIndicator />}
       </div>
     </ScrollArea>
   )

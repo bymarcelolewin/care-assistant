@@ -2,7 +2,6 @@
 
 import { MessageList } from "./MessageList"
 import { MessageInput } from "./MessageInput"
-import { LoadingIndicator } from "./LoadingIndicator"
 import { Message } from "@/lib/types"
 
 interface ChatWindowProps {
@@ -22,16 +21,11 @@ export function ChatWindow({
     <div className="h-full flex flex-col p-6">
       {/* Messages Area */}
       <div className="flex-1 overflow-hidden">
-        <MessageList messages={messages} />
-        {isLoading && (
-          <div className="px-4 py-2">
-            <LoadingIndicator message={loadingMessage} />
-          </div>
-        )}
+        <MessageList messages={messages} isLoading={isLoading} />
       </div>
 
       {/* Input Area */}
-      <div className="p-4">
+      <div className="pt-6 px-4 pb-4">
         <MessageInput
           onSendMessage={onSendMessage}
           disabled={isLoading}

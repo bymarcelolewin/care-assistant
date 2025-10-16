@@ -9,7 +9,7 @@ interface ChatHeaderProps {
 
 export function ChatHeader({ onClearConversation }: ChatHeaderProps) {
   return (
-    <div className="border-b p-4 flex items-center justify-between">
+    <div className="border-b p-4 px-10 flex items-center justify-between">
       <div>
         <h1 className="text-2xl font-bold">CARE Assistant</h1>
         <p className="text-sm text-muted-foreground">
