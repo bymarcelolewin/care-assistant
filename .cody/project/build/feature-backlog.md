@@ -94,6 +94,21 @@ Improve the developer panel with better terminology and enhanced trace visibilit
 | V4-7 | Tab Styling Improvements | Make active tabs more visually distinct with darker background and white text, subtle rounded corners | High | 🟢 Completed |
 | V4-8 | Fix Tool Results Display | Investigate and fix why tool results are not showing in Memory (State) tab | High | 🟢 Completed |
 
+## Version 0.5.0 - UI Improvements AI Chatbot - 🔴 Not Started
+Redesign the chat window UI for a more cohesive and polished user experience with better spacing, contained layout, and modernized input design.
+
+**Reference Design:** `.cody/project/library/assets/Chat Window UX.png`
+**Scope:** Chat window only (Observability panel updates deferred to future version)
+
+| ID  | Feature                 | Description                              | Priority | Status |
+|-----|-------------------------|------------------------------------------|----------|--------|
+| V5-1 | Outer Container Border | Add gray rounded border around entire chat window for cohesive contained experience | High | 🔴 Not Started |
+| V5-2 | Inner Padding | Add buffer/padding between chat content and outer border on all sides | High | 🔴 Not Started |
+| V5-3 | Message Bubble Spacing | Increase left/right margins so messages don't go edge-to-edge within chat area | High | 🔴 Not Started |
+| V5-4 | Input Field Redesign | Redesign input field with background color and stroke/border matching design | High | 🔴 Not Started |
+| V5-5 | Send Button Inside Input | Move send button inside the input field on the right side | High | 🔴 Not Started |
+| V5-6 | Remove Input Separator | Remove border-top line between messages area and input area | High | 🔴 Not Started |
+
 ## Version 1.0.0 - Enhanced Learning Features - 🔴 Not Started
 Polish the application with enhanced visibility, documentation, and learning features.
 

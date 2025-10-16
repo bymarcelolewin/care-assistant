@@ -34,7 +34,7 @@ export function MessageInput({
   }
 
   return (
-    <div className="flex gap-2 items-center">
+    <div className="relative bg-gray-50 border border-gray-300 rounded-lg flex items-center py-2">
       <Input
         type="text"
         placeholder={placeholder}
@@ -42,12 +42,13 @@ export function MessageInput({
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={handleKeyDown}
         disabled={disabled}
-        className="flex-1"
+        className="flex-1 border-0 bg-transparent pr-12 focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none outline-none"
       />
       <Button
         onClick={handleSend}
         disabled={disabled || !input.trim()}
         size="icon"
+        className="absolute right-2 bg-gray-500 hover:bg-gray-600"
       >
         <Send className="h-4 w-4" />
         <span className="sr-only">Send message</span>

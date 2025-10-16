@@ -31,8 +31,8 @@ export function MessageList({ messages }: MessageListProps) {
   }
 
   return (
-    <ScrollArea className="h-full w-full pr-4" ref={scrollAreaRef}>
-      <div className="space-y-4 pt-4 pb-4">
+    <ScrollArea className="h-full w-full" ref={scrollAreaRef}>
+      <div className="space-y-4 pt-4 pb-4 px-6">
         {messages.map((message) => (
           <Card
             key={message.id}

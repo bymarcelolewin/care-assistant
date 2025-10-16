@@ -19,7 +19,7 @@ export function ChatWindow({
   loadingMessage
 }: ChatWindowProps) {
   return (
-    <div className="flex flex-col h-full">
+    <div className="h-full flex flex-col p-6">
       {/* Messages Area */}
       <div className="flex-1 overflow-hidden">
         <MessageList messages={messages} />
@@ -31,11 +31,11 @@ export function ChatWindow({
       </div>
 
       {/* Input Area */}
-      <div className="border-t p-4">
+      <div className="p-4">
         <MessageInput
           onSendMessage={onSendMessage}
           disabled={isLoading}
-          placeholder={isLoading ? "Waiting for response..." : "Type your message..."}
+          placeholder={isLoading ? "Waiting for response..." : "Ask anything you like..."}
         />
       </div>
     </div>

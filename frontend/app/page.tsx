@@ -150,15 +150,17 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col h-screen max-w-[1200px] mx-auto">
-      <ChatHeader onClearConversation={handleClearConversation} />
-      <div className="flex-1 overflow-hidden">
-        <ChatWindow
-          messages={messages}
-          onSendMessage={handleSendMessage}
-          isLoading={isLoading}
-          loadingMessage={loadingMessage}
-        />
+    <div className="flex flex-col h-screen max-w-[1200px] mx-auto p-6">
+      <div className="flex-1 overflow-hidden border border-gray-300 rounded-2xl flex flex-col">
+        <ChatHeader onClearConversation={handleClearConversation} />
+        <div className="flex-1 overflow-hidden">
+          <ChatWindow
+            messages={messages}
+            onSendMessage={handleSendMessage}
+            isLoading={isLoading}
+            loadingMessage={loadingMessage}
+          />
+        </div>
       </div>
       <DeveloperPanel trace={trace} state={state} messages={messages} />
     </div>
