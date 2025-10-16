@@ -24,7 +24,7 @@ export function DeveloperPanel({ trace, state }: DeveloperPanelProps) {
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="flex items-center gap-2">
-          <span className="text-sm font-mono font-semibold">🔧 Developer Panel</span>
+          <span className="text-sm font-mono font-semibold">🔍 Observability</span>
           <span className="text-xs text-muted-foreground">
             {trace.length > 0 ? `${trace.length} trace entries` : "No trace data"}
           </span>
@@ -43,8 +43,18 @@ export function DeveloperPanel({ trace, state }: DeveloperPanelProps) {
         <div className="border-t">
           <Tabs defaultValue="trace" className="w-full">
             <TabsList className="w-full justify-start rounded-none border-b bg-background">
-              <TabsTrigger value="trace">Execution Trace</TabsTrigger>
-              <TabsTrigger value="state">State</TabsTrigger>
+              <TabsTrigger
+                value="trace"
+                className="data-[state=active]:bg-slate-600 data-[state=active]:text-white rounded-sm"
+              >
+                Execution Steps
+              </TabsTrigger>
+              <TabsTrigger
+                value="state"
+                className="data-[state=active]:bg-slate-600 data-[state=active]:text-white rounded-sm"
+              >
+                Memory
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="trace" className="p-4 max-h-[400px] overflow-y-auto">
