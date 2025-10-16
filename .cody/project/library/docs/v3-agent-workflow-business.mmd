@@ -1,0 +1,98 @@
+---
+title: CARE Assistant - Customer Conversation Flow
+description: How customers interact with the insurance assistant from greeting to answer
+version: 0.3.0
+audience: Business Users
+date: 2025-10-15
+---
+
+flowchart TB
+    Start([Customer Starts Conversation]) --> Welcome[Welcome & Ask for Name]
+    
+    Welcome --> CheckKnown{Returning<br/>Customer?}
+    
+    %% New Customer Path
+    CheckKnown -->|No| AskName["Ask: What's your name?"]
+    AskName --> ReceiveName[Customer Provides Name]
+    ReceiveName --> UnderstandName[Understand Name<br/>from Natural Language]
+    UnderstandName --> LookupCustomer[Search Customer Database]
+    
+    LookupCustomer --> Found{Customer<br/>Found?}
+    
+    Found -->|No| NotInSystem[Inform: Not in System<br/>Contact Support]
+    NotInSystem --> EndConvo([Conversation Ends])
+    
+    Found -->|Yes| LoadInfo[Load Customer Information]
+    LoadInfo --> DataLoaded["📊 DATA CAPTURED:<br/>✓ Customer Identity<br/>✓ Plan Details<br/>✓ Member History<br/>✓ Coverage Info"]
+    DataLoaded --> PersonalWelcome[Send Personalized Welcome<br/>with Member History]
+    PersonalWelcome --> WaitQuestion([Wait for Customer Question])
+    
+    %% Returning Customer Path
+    CheckKnown -->|Yes| KnownCustomer[Customer Already Identified]
+    KnownCustomer --> ReadyToHelp{First Greeting<br/>or Question?}
+    
+    ReadyToHelp -->|First Greeting| WaitQuestion
+    ReadyToHelp -->|Customer Question| ProcessQuestion
+    
+    %% Question Processing
+    WaitQuestion --> ProcessQuestion[Receive Customer Question]
+    ProcessQuestion --> AnalyzeQuestion[Understand What<br/>Customer Needs]
+    
+    AnalyzeQuestion --> DetermineInfo{What Information<br/>Needed?}
+    
+    %% Simple Question Path
+    DetermineInfo -->|General Chat| NoLookup[No Information<br/>Lookup Needed]
+    NoLookup --> PrepareAnswer
+    
+    %% Information Retrieval Path
+    DetermineInfo -->|Needs Info| IdentifyInfo[Identify Required Information]
+    IdentifyInfo --> MultiInfo{Multiple<br/>Types?}
+    
+    MultiInfo -->|Single| SingleLookup[Retrieve One Type<br/>of Information]
+    MultiInfo -->|Multiple| MultiLookup[Retrieve Multiple Types<br/>of Information]
+    
+    SingleLookup --> InfoTypes
+    MultiLookup --> InfoTypes
+    
+    InfoTypes["Available Information:<br/>• Coverage Details<br/>• Benefits Verification<br/>• Claims History"]
+    
+    InfoTypes --> GetCoverage{Need Coverage<br/>Details?}
+    GetCoverage -->|Yes| Coverage[Get Plan Information]
+    GetCoverage -->|No| GetBenefits
+    
+    Coverage --> GetBenefits{Need Benefits<br/>Info?}
+    GetBenefits -->|Yes| Benefits[Verify Service Coverage]
+    GetBenefits -->|No| GetClaims
+    
+    Benefits --> GetClaims{Need Claims<br/>Info?}
+    GetClaims -->|Yes| Claims[Retrieve Claims History]
+    GetClaims -->|No| DataRetrieved
+    
+    Claims --> DataRetrieved["📊 DATA RETRIEVED:<br/>✓ Coverage Information<br/>✓ Benefits Details<br/>✓ Claims Status<br/>✓ Customer Context"]
+    
+    DataRetrieved --> PrepareAnswer[Prepare Personalized Answer]
+    
+    PrepareAnswer --> GenerateResponse[Create Natural Language Response<br/>Using Retrieved Information]
+    
+    GenerateResponse --> Success{Response<br/>Ready?}
+    
+    Success -->|Error| ErrorMsg[Apologize & Ask to Rephrase]
+    ErrorMsg --> DataCleared1
+    
+    Success -->|Yes| SendAnswer[Send Personalized Answer]
+    SendAnswer --> DataCleared1["📊 CONVERSATION SAVED:<br/>✓ Customer Question<br/>✓ Answer Provided<br/>✓ Interaction Logged"]
+    
+    DataCleared1 --> TurnComplete([Ready for Next Question])
+    
+    %% Styling
+    classDef customerAction fill:#3b82f6,stroke:#2563eb,stroke-width:2px,color:#fff
+    classDef systemAction fill:#8b5cf6,stroke:#7c3aed,stroke-width:2px,color:#fff
+    classDef dataAction fill:#22c55e,stroke:#16a34a,stroke-width:2px,color:#fff,stroke-dasharray: 5 5
+    classDef decision fill:#f59e0b,stroke:#d97706,stroke-width:2px,color:#fff
+    classDef endpoint fill:#ef4444,stroke:#dc2626,stroke-width:3px,color:#fff
+    
+    class Start,WaitQuestion,TurnComplete,EndConvo endpoint
+    class ReceiveName,ProcessQuestion customerAction
+    class Welcome,AskName,UnderstandName,LookupCustomer,LoadInfo,PersonalWelcome,KnownCustomer,AnalyzeQuestion,IdentifyInfo,SingleLookup,MultiLookup,Coverage,Benefits,Claims,PrepareAnswer,GenerateResponse,SendAnswer,ErrorMsg systemAction
+    class DataLoaded,DataRetrieved,DataCleared1 dataAction
+    class CheckKnown,Found,ReadyToHelp,DetermineInfo,MultiInfo,GetCoverage,GetBenefits,GetClaims,Success decision

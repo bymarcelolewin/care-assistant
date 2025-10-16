@@ -4,7 +4,7 @@ Main application entry point for CARE Assistant - Coverage Analysis and Recommen
 This FastAPI application demonstrates LangGraph concepts including:
 - State management across conversation turns
 - Tool integration for querying insurance data
-- Conditional routing based on user intent
+- Intelligent tool orchestration using LLM-based multi-tool coordination
 - Execution trace visibility for learning
 
 Run with: uvicorn app.main:app --reload

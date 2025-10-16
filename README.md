@@ -12,7 +12,7 @@ To run it, just type `uv run uvicorn app.main:app --port 8000`
 This is a **learning-focused POC** designed to demonstrate:
 - **State management** across conversation turns
 - **Tool integration** for querying insurance data
-- **Conditional routing** based on user intent
+- **Intelligent tool orchestration** using LLM-based multi-tool coordination
 - **Graph structure** with nodes and edges
 - **Execution visibility** for understanding LangGraph internals
 

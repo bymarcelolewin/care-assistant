@@ -1,0 +1,142 @@
+---
+title: CARE Assistant v0.3.0 - Complete Agent Workflow
+description: Comprehensive LangGraph workflow showing all nodes, edges, and decision points from initial greeting to final response
+version: 0.3.0
+date: 2025-10-15
+---
+
+flowchart TB
+    Start([START]) --> IdentifyUser[identify_user Node]
+    
+    %% Node 1: Identify User - Initial Greeting or Already Identified
+    IdentifyUser --> CheckUserID{user_id exists?}
+    
+    %% Branch 1A: User Already Identified
+    CheckUserID -->|Yes| AlreadyIdentified[Log: User already identified]
+    AlreadyIdentified --> CheckFirstGreeting{first_greeting flag?}
+    
+    %% Branch 1B: User NOT Identified - Need Name
+    CheckUserID -->|No| CheckMessages{messages.length == 0?}
+    
+    %% First Interaction - No messages yet
+    CheckMessages -->|Yes| AskName1["Send: Hello! I'm your ❤️ CARE Assistant.<br/>What's your name?"]
+    AskName1 --> End1([END - Wait for user input])
+    
+    %% Has messages - Check if greeted
+    CheckMessages -->|No| CheckGreeted{Already asked<br/>for name?}
+    
+    %% Haven't greeted yet
+    CheckGreeted -->|No| AskName2["Send: Hello! I'm your ❤️ CARE Assistant.<br/>What's your name?"]
+    AskName2 --> End2([END - Wait for user input])
+    
+    %% Already greeted - Extract name from response
+    CheckGreeted -->|Yes| ExtractName["LLM: Extract name from user input<br/>(with_structured_output)"]
+    ExtractName --> CheckConfidence{Confidence == 'high'<br/>AND name extracted?}
+    
+    %% Low confidence - Ask again
+    CheckConfidence -->|No| RetryName["Send: I didn't quite catch your name.<br/>Could you please tell me your first name?"]
+    RetryName --> End3([END - Wait for user input])
+    
+    %% High confidence - Search user
+    CheckConfidence -->|Yes| SearchUser[Search user_profiles.json<br/>by extracted name<br/>case-insensitive]
+    SearchUser --> UserFound{User found?}
+    
+    %% User not found
+    UserFound -->|No| NotFound["Send: Sorry [name], you are not<br/>in our system. Please contact support."]
+    NotFound --> End4([END - Conversation complete])
+    
+    %% User found - Load profile and welcome
+    UserFound -->|Yes| LoadProfile["Load user profile:<br/>- user_id<br/>- user_profile<br/>- member_since"]
+    LoadProfile --> FormatDate["Format member_since date<br/>(e.g., 'March 2022')"]
+    FormatDate --> SendWelcome["Send: Welcome [FirstName]! ❤️<br/>Thank you for being a member since [Date].<br/>Do you have any questions about<br/>your plan, benefits, or claims?"]
+    SendWelcome --> SetFirstGreeting["Set first_greeting = True"]
+    SetFirstGreeting --> StateUpdate1["📊 STATE UPDATED:<br/>✓ user_id<br/>✓ user_profile<br/>✓ messages<br/>✓ first_greeting<br/>✓ execution_trace"]
+    StateUpdate1 --> End5([END - Wait for user question])
+    
+    %% Conditional Edge: should_continue_after_identify
+    CheckFirstGreeting -->|Yes<br/>first_greeting = True| End6([END - Show welcome only])
+    CheckFirstGreeting -->|No<br/>User asks question| ClearFirstGreeting["Clear first_greeting flag"]
+    ClearFirstGreeting --> OrchestrateTools
+    
+    %% Node 2: Orchestrate Tools - LLM-based multi-tool coordination
+    OrchestrateTools["orchestrate_tools Node<br/>(LLM-based tool selection)"]
+    OrchestrateTools --> GetUserQuestion["Get user's latest message"]
+    GetUserQuestion --> LLMOrchestrator["LLM: Analyze question and<br/>determine which tools to call<br/><br/>Available tools:<br/>- coverage_lookup<br/>- benefit_verify<br/>- claims_status"]
+    
+    LLMOrchestrator --> ParseTools["Parse LLM response<br/>Extract tool names"]
+    ParseTools --> HasTools{Tools<br/>identified?}
+    
+    %% No tools needed (general conversation)
+    HasTools -->|No| NoTools["No tools needed<br/>Log: Question doesn't need tools"]
+    NoTools --> GenerateResponse
+    
+    %% Tools identified - Execute them
+    HasTools -->|Yes| InitResults["Initialize tool_results = {}"]
+    InitResults --> ToolLoop["For each tool in list:"]
+    
+    %% Tool Execution Loop
+    ToolLoop --> CheckToolType{Tool type?}
+    
+    CheckToolType -->|coverage_lookup| Tool1["Execute coverage_lookup:<br/>- Pass user_id & query<br/>- Get plan details, deductible, limits"]
+    Tool1 --> StoreResult1["Store in tool_results['coverage_lookup']"]
+    StoreResult1 --> Progress1["Add progress message:<br/>'Let me check your coverage details...'"]
+    Progress1 --> MoreTools1{More tools?}
+    
+    CheckToolType -->|benefit_verify| Tool2["Execute benefit_verify:<br/>- Pass user_id & service_type<br/>- Check service coverage"]
+    Tool2 --> StoreResult2["Store in tool_results['benefit_verify']"]
+    StoreResult2 --> Progress2["Add progress message:<br/>'Now let me verify what benefits are covered...'"]
+    Progress2 --> MoreTools1
+    
+    CheckToolType -->|claims_status| Tool3["Execute claims_status:<br/>- Pass user_id & status_filter<br/>- Get claims history"]
+    Tool3 --> StoreResult3["Store in tool_results['claims_status']"]
+    StoreResult3 --> Progress3["Add progress message:<br/>'Let me look up your claims history...'"]
+    Progress3 --> MoreTools1
+    
+    MoreTools1 -->|Yes| ToolLoop
+    MoreTools1 -->|No| AllToolsComplete["All tools executed<br/>Set needs_tool_call = False"]
+    AllToolsComplete --> StateUpdate2["📊 STATE UPDATED:<br/>✓ tool_results (dict)<br/>✓ progress_messages<br/>✓ needs_tool_call<br/>✓ execution_trace"]
+    StateUpdate2 --> GenerateResponse
+    
+    %% Node 3: Generate Response - Synthesize answer with LLM
+    GenerateResponse["generate_response Node<br/>(Natural language synthesis)"]
+    GenerateResponse --> BuildContext["Build LLM context:<br/>- User profile details<br/>- Conversation history<br/>- Tool results (if any)"]
+    
+    BuildContext --> SystemPrompt["Create system prompt:<br/>'You are a helpful insurance assistant...<br/>Use ONLY provided information.<br/>Be conversational and friendly.'"]
+    
+    SystemPrompt --> AddToolResults{tool_results exist?}
+    AddToolResults -->|Yes| FormatToolResults["Format tool results:<br/>For each tool_name: result<br/>Add to context"]
+    AddToolResults -->|No| SkipToolResults[Skip tool context]
+    
+    FormatToolResults --> CallLLM
+    SkipToolResults --> CallLLM
+    
+    CallLLM["LLM: Generate conversational response<br/>using context + history + tool results"]
+    CallLLM --> ResponseSuccess{Success?}
+    
+    %% Error handling
+    ResponseSuccess -->|Error| ErrorResponse["Send: I'm sorry, I encountered an error.<br/>Could you please rephrase your question?"]
+    ErrorResponse --> ClearState1
+    
+    %% Success - Return response
+    ResponseSuccess -->|Yes| ReturnResponse["Return AI response message"]
+    ReturnResponse --> ClearState1["Clear temporary state:<br/>- tool_results = None<br/>- progress_messages = None"]
+    ClearState1 --> StateUpdate3["📊 STATE UPDATED:<br/>✓ messages (response added)<br/>✓ tool_results (cleared)<br/>✓ progress_messages (cleared)<br/>✓ execution_trace"]
+    
+    StateUpdate3 --> End7([END - Turn complete])
+    
+    %% Styling
+    classDef startEnd fill:#10b981,stroke:#059669,stroke-width:3px,color:#fff
+    classDef nodeStyle fill:#0ea5e9,stroke:#0284c7,stroke-width:2px,color:#fff
+    classDef decisionStyle fill:#f59e0b,stroke:#d97706,stroke-width:2px,color:#fff
+    classDef toolStyle fill:#8b5cf6,stroke:#7c3aed,stroke-width:2px,color:#fff
+    classDef llmStyle fill:#ec4899,stroke:#db2777,stroke-width:2px,color:#fff
+    classDef endStyle fill:#ef4444,stroke:#dc2626,stroke-width:3px,color:#fff
+    
+    classDef stateStyle fill:#22c55e,stroke:#16a34a,stroke-width:2px,color:#fff,stroke-dasharray: 5 5
+    
+    class Start,End1,End2,End3,End4,End5,End6,End7 startEnd
+    class IdentifyUser,OrchestrateTools,GenerateResponse nodeStyle
+    class CheckUserID,CheckMessages,CheckGreeted,CheckConfidence,UserFound,CheckFirstGreeting,HasTools,CheckToolType,MoreTools1,AddToolResults,ResponseSuccess decisionStyle
+    class Tool1,Tool2,Tool3,StoreResult1,StoreResult2,StoreResult3 toolStyle
+    class ExtractName,LLMOrchestrator,CallLLM llmStyle
+    class StateUpdate1,StateUpdate2,StateUpdate3 stateStyle
