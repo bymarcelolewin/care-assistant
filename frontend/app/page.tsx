@@ -18,10 +18,17 @@ export default function Home() {
   // Load session and get initial greeting on mount
   useEffect(() => {
     const storedSessionId = getSessionId()
-    setSessionId(storedSessionId)
-
-    // If no session, get initial greeting
+    
+    // Note: Backend session management is stateless (in-memory only)
+    // We clear any stale session IDs and always start with a fresh greeting
+    // Future enhancement: Implement session restoration from backend
     if (!storedSessionId) {
+      handleInitialGreeting()
+    } else {
+      // Session exists in localStorage but messages aren't persisted
+      // Clear the stale session and start fresh with greeting
+      clearSessionId()
+      setSessionId(null)
       handleInitialGreeting()
     }
   }, [])
