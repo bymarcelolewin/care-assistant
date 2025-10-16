@@ -32,13 +32,13 @@ export function MessageList({ messages }: MessageListProps) {
 
   return (
     <ScrollArea className="h-full w-full pr-4" ref={scrollAreaRef}>
-      <div className="space-y-4 pb-4">
+      <div className="space-y-4 pt-4 pb-4">
         {messages.map((message) => (
           <Card
             key={message.id}
             className={`max-w-[80%] ${
               message.role === "user"
-                ? "ml-auto bg-primary text-primary-foreground"
+                ? "ml-auto bg-slate-600 text-white"
                 : "mr-auto bg-muted"
             } ${message.isProgress ? "opacity-70 italic" : ""}`}
           >

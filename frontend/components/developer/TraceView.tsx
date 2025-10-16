@@ -101,7 +101,7 @@ function groupTracesByMessage(
  */
 function UserPromptDisplay({ message }: { message: Message }) {
   return (
-    <div className="bg-slate-800 text-white p-3 rounded-lg">
+    <div className="bg-slate-600 text-white p-3 rounded-lg">
       <div className="flex items-start justify-between gap-2">
         <div className="flex-1">
           <p className="text-sm font-medium">{message.content}</p>
@@ -122,7 +122,7 @@ function UserPromptDisplay({ message }: { message: Message }) {
  */
 function InitialSystemDisplay() {
   return (
-    <div className="bg-slate-800 text-white p-3 rounded-lg">
+    <div className="bg-slate-600 text-white p-3 rounded-lg">
       <div className="flex items-start justify-between gap-2">
         <div className="flex-1">
           <p className="text-sm font-medium">System Initialization</p>
