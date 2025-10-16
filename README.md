@@ -2,6 +2,8 @@
 
 A hands-on learning application demonstrating core LangGraph concepts through a practical example: an AI-powered insurance coverage assistant that helps users understand their healthcare benefits.
 
+To run it, just type `uv run uvicorn app.main:app --port 8000`
+
 **Version:** 0.3.0 - Web Interface
 **Status:** ✅ Production-Ready Web Application
 
