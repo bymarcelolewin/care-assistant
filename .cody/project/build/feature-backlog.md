@@ -80,19 +80,19 @@ Create a modern web-based user interface for interacting with the agent using sh
 | V3-18 | CARE Assistant Branding | Add ❤️ emoji to branding | Medium | 🟢 Completed |
 | V3-19 | First Greeting Flag | Prevent LLM from overriding welcome message | High | 🟢 Completed |
 
-## Version 0.4.0 - Observability Enhancements - 🟡 In Progress
+## Version 0.4.0 - Observability Enhancements - 🟢 Completed
 Improve the developer panel with better terminology and enhanced trace visibility by showing user prompts alongside execution steps.
 
 | ID  | Feature                 | Description                              | Priority | Status |
 |-----|-------------------------|------------------------------------------|----------|--------|
-| V4-1 | Rename Developer Panel | Change panel title from "🔧 Developer Panel" to "🔍 Observability" | High | 🔴 Not Started |
-| V4-2 | Rename State Tab | Change "State" tab label to "Memory" | High | 🔴 Not Started |
-| V4-3 | Rename Execution Trace Tab | Change "Execution Trace" tab label to "Execution Steps" | High | 🔴 Not Started |
-| V4-4 | Add User Prompt Display | Show user messages that triggered execution steps in trace view | High | 🔴 Not Started |
-| V4-5 | Group Trace by Message | Group execution steps by the user message that triggered them | High | 🔴 Not Started |
-| V4-6 | Visual Prompt Styling | Use darker background color to distinguish prompts from execution steps | Medium | 🔴 Not Started |
-| V4-7 | Tab Styling Improvements | Make active tabs more visually distinct with darker background and white text, remove rounded corners | High | 🔴 Not Started |
-| V4-8 | Fix Tool Results Display | Investigate and fix why tool results are not showing in Memory (State) tab | High | 🔴 Not Started |
+| V4-1 | Rename Developer Panel | Change panel title from "🔧 Developer Panel" to "🔍 Observability" | High | 🟢 Completed |
+| V4-2 | Rename State Tab | Change "State" tab label to "Memory" | High | 🟢 Completed |
+| V4-3 | Rename Execution Trace Tab | Change "Execution Trace" tab label to "Execution Steps" | High | 🟢 Completed |
+| V4-4 | Add User Prompt Display | Show user messages that triggered execution steps in trace view | High | 🟢 Completed |
+| V4-5 | Group Trace by Message | Group execution steps by the user message that triggered them | High | 🟢 Completed |
+| V4-6 | Visual Prompt Styling | Use darker background color to distinguish prompts from execution steps | Medium | 🟢 Completed |
+| V4-7 | Tab Styling Improvements | Make active tabs more visually distinct with darker background and white text, subtle rounded corners | High | 🟢 Completed |
+| V4-8 | Fix Tool Results Display | Investigate and fix why tool results are not showing in Memory (State) tab | High | 🟢 Completed |
 
 ## Version 1.0.0 - Enhanced Learning Features - 🔴 Not Started
 Polish the application with enhanced visibility, documentation, and learning features.

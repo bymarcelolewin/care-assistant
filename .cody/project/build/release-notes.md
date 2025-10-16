@@ -3,9 +3,43 @@
 This document lists new features, bug fixes, and other changes implemented during a particular build, also known as a version.
 
 ## Table of Contents
+- [v0.4.0 - Observability Enhancements](#v040---observability-enhancements---january-2025)
 - [v0.3.0 - Web Interface](#v030---web-interface---october-15-2025)
 - [v0.2.0 - Core Agent](#v020---core-agent)
 - [v0.1.0 - Environment & Foundation](#v010---environment--foundation)
+
+---
+
+# v0.4.0 - Observability Enhancements - October 16, 2025
+
+## Overview
+This version significantly improves the developer experience by transforming the "Developer Panel" into a comprehensive "Observability" panel with enhanced trace visibility, better terminology, and improved debugging capabilities. The update includes visual design improvements, smart grouping of execution steps with user prompts, and a critical bug fix for tool results display.
+
+## Key Features
+- **Rebranded Panel**: Changed "🔧 Developer Panel" to "🔍 Observability" for clearer purpose
+- **Better Terminology**: "State" → "Memory", "Execution Trace" → "Execution Steps" for more intuitive navigation
+- **User Prompt Display**: User messages now appear alongside execution steps with darker background (slate-800) for clear visual distinction
+- **Smart Grouping**: Execution steps are grouped by the user message that triggered them, displayed latest-first for better visibility
+- **System Initialization Header**: Clear visual indicator for initial startup traces, preventing confusion with user-triggered traces
+- **Enhanced Tab Styling**: Active tabs feature dark gray background (slate-600) with white text and subtle rounded corners (2px)
+
+## Enhancements
+- **Improved Trace Organization**: Latest prompts and their execution steps appear first, making recent activity immediately visible
+- **Visual Hierarchy**: Distinct backgrounds for user prompts vs system initialization vs execution steps
+- **Better Developer Experience**: Observability panel now provides clearer insights into graph execution flow
+
+## Bug Fixes
+- **Tool Results Display**: Fixed critical bug where tool_results were always showing as empty `{}` in Memory tab
+  - Root cause: `generate_response` node was clearing tool_results before API response was sent to frontend
+  - Solution: Removed premature state clearing to persist tool results for frontend display
+  - Impact: Memory tab now properly displays actual tool execution results for debugging
+
+## Other Notes
+- Total of 26 tasks completed across 5 phases
+- All 8 planned features delivered successfully
+- Updated README.md with v0.4.0 changes and new Observability features
+- Comprehensive retrospective document captures lessons learned
+- No breaking changes—fully backward compatible with v0.3.0
 
 ---
 

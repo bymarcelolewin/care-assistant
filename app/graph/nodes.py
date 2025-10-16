@@ -775,10 +775,11 @@ IMPORTANT INSTRUCTIONS:
             }
         )
 
-        # Return the response and clear temporary data
+        # Return the response
+        # Note: We keep tool_results in state so the frontend can display them
+        # They will be replaced when new tools are called in the next turn
         return {
             "messages": [AIMessage(content=response.content)],
-            "tool_results": None,  # Clear tool results for next turn
             "execution_trace": trace
         }
 
@@ -797,6 +798,5 @@ IMPORTANT INSTRUCTIONS:
 
         return {
             "messages": [error_response],
-            "tool_results": None,
             "execution_trace": trace
         }

@@ -41,27 +41,27 @@ This document outlines all the tasks to work on to deliver this particular versi
 | 3.7 | Test user prompt display | Verify user prompts appear with darker background, latest first, initial traces preserved with System header | 3.6 | 🟢 Completed | USER |
 
 
-## Phase 4: Tool Results Display Investigation & Fix
+## Phase 4: Tool Results Display Investigation & Fix ✅ COMPLETED
 
 | ID  | Task             | Description                             | Dependencies | Status | Assigned To |
 |-----|------------------|-----------------------------------------|-------------|----------|--------|
-| 4.1 | Investigate backend state handling | Check app/api/chat.py to see how state.tool_results is populated | Phase 1 | 🔴 Not Started | AGENT |
-| 4.2 | Check graph nodes | Review app/graph/nodes.py to verify tool results are added to state | 4.1 | 🔴 Not Started | AGENT |
-| 4.3 | Verify state serialization | Ensure tool_results are included when state is serialized for API response | 4.2 | 🔴 Not Started | AGENT |
-| 4.4 | Identify root cause | Document why tool_results are empty in frontend | 4.3 | 🔴 Not Started | AGENT |
-| 4.5 | Implement fix | Update backend code to persist tool_results in state for frontend display | 4.4 | 🔴 Not Started | AGENT |
-| 4.6 | Test tool results display | Execute actions that trigger tools and verify results appear in Memory tab | 4.5 | 🔴 Not Started | USER |
+| 4.1 | Investigate backend state handling | Check app/api/chat.py to see how state.tool_results is populated | Phase 1 | 🟢 Completed | AGENT |
+| 4.2 | Check graph nodes | Review app/graph/nodes.py to verify tool results are added to state | 4.1 | 🟢 Completed | AGENT |
+| 4.3 | Verify state serialization | Ensure tool_results are included when state is serialized for API response | 4.2 | 🟢 Completed | AGENT |
+| 4.4 | Identify root cause | Root cause: generate_response node was clearing tool_results before API response | 4.3 | 🟢 Completed | AGENT |
+| 4.5 | Implement fix | Removed tool_results clearing from generate_response node to persist data for frontend | 4.4 | 🟢 Completed | AGENT |
+| 4.6 | Test tool results display | Execute actions that trigger tools and verify results appear in Memory tab | 4.5 | 🟢 Completed | USER |
 
 
-## Phase 5: End-to-End Testing & Documentation
+## Phase 5: End-to-End Testing & Documentation ✅ COMPLETED (except final commit)
 
 | ID  | Task             | Description                             | Dependencies | Status | Assigned To |
 |-----|------------------|-----------------------------------------|-------------|----------|--------|
-| 5.1 | Test full observability panel | Verify all changes work together: new labels, tab styling, user prompts, tool results | Phase 2, Phase 3, Phase 4 | 🔴 Not Started | USER |
-| 5.2 | Test with multiple messages | Send multiple messages and verify grouping and display works correctly | 5.1 | 🔴 Not Started | USER |
-| 5.3 | Test empty states | Verify behavior when there are no messages or no trace entries | 5.2 | 🔴 Not Started | USER |
-| 5.4 | Verify responsive behavior | Check panel behavior on different screen sizes | 5.3 | 🔴 Not Started | USER |
-| 5.5 | Update README if needed | Document any user-facing changes to observability panel (optional) | 5.4 | 🔴 Not Started | AGENT |
+| 5.1 | Test full observability panel | Verify all changes work together: new labels, tab styling, user prompts, tool results | Phase 2, Phase 3, Phase 4 | 🟢 Completed | USER |
+| 5.2 | Test with multiple messages | Send multiple messages and verify grouping and display works correctly | 5.1 | 🟢 Completed | USER |
+| 5.3 | Test empty states | Verify behavior when there are no messages or no trace entries | 5.2 | 🟢 Completed | USER |
+| 5.4 | Verify responsive behavior | Check panel behavior on different screen sizes | 5.3 | 🟢 Completed | USER |
+| 5.5 | Update README if needed | Document any user-facing changes to observability panel (optional) | 5.4 | 🟢 Completed | AGENT |
 | 5.6 | Final commit | Commit all changes to git with descriptive message | 5.5 | 🔴 Not Started | USER |
 
 

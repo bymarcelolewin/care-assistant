@@ -4,7 +4,7 @@ A hands-on learning application demonstrating core LangGraph concepts through a 
 
 To run it, just type `uv run uvicorn app.main:app --port 8000`
 
-**Version:** 0.3.0 - Web Interface
+**Version:** 0.4.0 - Observability Enhancements
 **Status:** ✅ Production-Ready Web Application
 
 ## 🎯 Project Goals
@@ -65,7 +65,7 @@ This is a **learning-focused POC** designed to demonstrate:
 │   │   │   ├── MessageList.tsx
 │   │   │   ├── MessageInput.tsx
 │   │   │   └── LoadingIndicator.tsx
-│   │   ├── developer/           # Developer panel
+│   │   ├── developer/           # Observability panel
 │   │   │   ├── DeveloperPanel.tsx
 │   │   │   ├── TraceView.tsx
 │   │   │   └── StateView.tsx
@@ -96,7 +96,8 @@ This is a **learning-focused POC** designed to demonstrate:
 │       │   ├── feature-backlog.md
 │       │   ├── v0.1.0-environment-foundation/
 │       │   ├── v0.2.0-core-agent/
-│       │   └── v0.3.0-web-interface/  # ✅ Current version
+│       │   ├── v0.3.0-web-interface/
+│       │   └── v0.4.0-observability-enhancements/  # ✅ Current version
 │       │       ├── design.md
 │       │       ├── tasklist.md
 │       │       └── retrospective.md
@@ -195,7 +196,7 @@ http://localhost:8000/
 - Natural language name input ("I'm Sarah" works!)
 - Personalized welcome messages with member history
 - Real-time progress messages during tool execution
-- Developer panel with execution trace and state visualization
+- Observability panel with execution steps and memory visualization
 - Session persistence across browser refreshes
 
 ### Development Mode (For Frontend Development)
@@ -445,9 +446,11 @@ This project is structured for progressive learning:
   - Progress messages during tool execution
   - Loading indicators
   - Error handling and recovery
-- **Developer Tools:**
-  - Execution trace visualization
-  - State inspection panel
+- **Observability Tools:**
+  - Execution steps with user prompt grouping
+  - Memory (state) inspection panel
+  - System initialization tracking
+  - Tool results display
   - Collapsible bottom panel (VS Code-style)
 - **Session Management:**
   - In-memory backend storage
@@ -465,7 +468,18 @@ This project is structured for progressive learning:
   - Keyboard shortcuts (Enter to send)
   - User/AI message styling
 
-### 🔄 Version 1.0.0 - Enhanced Learning Features
+### ✅ Version 0.4.0 - Observability Enhancements (Completed)
+**Latest version with improved developer experience!**
+
+- **Rebranded Panel:** "Developer Panel" → "Observability" with 🔍 icon
+- **Better Terminology:** "State" → "Memory", "Execution Trace" → "Execution Steps"
+- **Enhanced Tab Styling:** Active tabs with dark gray background and white text
+- **User Prompt Display:** See your messages alongside execution steps with darker background
+- **Smart Grouping:** Trace entries grouped by the message that triggered them, latest first
+- **System Initialization:** Clear visual indicator for initial startup traces
+- **Tool Results Fix:** Memory tab now properly displays tool results (was showing empty before)
+
+### 🔄 Version 1.0.0 - Enhanced Learning Features (Planned)
 - Detailed execution traces
 - State visualization
 - Comprehensive documentation
