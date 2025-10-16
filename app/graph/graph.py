@@ -3,7 +3,7 @@ LangGraph Graph Construction for CARE Assistant.
 
 This module builds and compiles the conversation graph by:
 1. Creating a StateGraph with the ConversationState schema
-2. Adding all nodes (identify_user, classify_intent, tools, generate_response)
+2. Adding all nodes (identify_user, orchestrate_tools, generate_response)
 3. Connecting nodes with edges (including conditional routing)
 4. Compiling the graph into an executable agent
 

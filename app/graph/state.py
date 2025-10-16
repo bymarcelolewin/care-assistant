@@ -32,13 +32,10 @@ class ConversationState(TypedDict):
         user_profile: Full user data loaded from user_profiles.json.
                       Contains insurance plan, coverage details, deductible info, etc.
 
-        intent: Classified user intent from classify_intent node.
-                Values: "coverage", "benefits", "claims", "general"
-                Used by conditional routing to determine which tool to call.
-
         tool_results: Results from tool calls (coverage_lookup, benefit_verify, claims_status).
                       Stored here so generate_response can access them.
                       Cleared after each turn to avoid stale data.
+                      Now supports multiple tools in one turn via orchestrate_tools node.
 
         conversation_context: Dictionary for storing extracted entities and context.
                              Examples: plan names mentioned, service types discussed, etc.
@@ -57,9 +54,6 @@ class ConversationState(TypedDict):
     # User identification and profile data
     user_id: Optional[str]
     user_profile: Optional[dict]
-
-    # Intent classification for routing
-    intent: Optional[str]
 
     # Tool results from current turn - now supports multiple tools
     # Dictionary mapping tool names to their results

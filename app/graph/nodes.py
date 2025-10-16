@@ -302,101 +302,7 @@ Only extract the actual name, nothing else. If you're not sure, set confidence t
 
 
 # ============================================================================
-# Node 2: Classify Intent
-# ============================================================================
-
-async def classify_intent(state: ConversationState) -> Dict[str, Any]:
-    """
-    Classify the user's intent using the LLM.
-
-    This node analyzes the user's latest message and classifies their intent into
-    one of four categories:
-    - "coverage": Questions about what's covered, plan details, deductibles
-    - "benefits": Questions about specific service coverage (e.g., "Is X covered?")
-    - "claims": Questions about claim status, history, or payments
-    - "general": General conversation, greetings, or unclear intent
-
-    This demonstrates:
-    - Using ChatOllama with async (ainvoke)
-    - Crafting effective prompts for intent classification
-    - Extracting structured information from LLM responses
-    - Updating state with classification results
-
-    Args:
-        state: Current conversation state
-
-    Returns:
-        dict: State updates with intent and execution trace
-    """
-    # Get the latest user message
-    messages = state.get("messages", [])
-    last_message = messages[-1] if messages else None
-
-    if not last_message:
-        return {"intent": "general"}
-
-    trace = add_trace_entry(
-        state.get("execution_trace", []),
-        "classify_intent",
-        "Classifying user intent with LLM"
-    )
-
-    # Create prompt for intent classification
-    classification_prompt = [
-        SystemMessage(content="""You are an intent classifier for an insurance assistant.
-Classify the user's message into ONE of these categories:
-- "coverage": Questions about coverage details, what's covered, plan information, deductibles, out-of-pocket
-- "benefits": Questions about specific service coverage (e.g., "Is MRI covered?", "Do you cover physical therapy?")
-- "claims": Questions about claim status, claim history, payments, or claim-related questions
-- "general": Greetings, general conversation, unclear questions, or off-topic
-
-Respond with ONLY the category name, nothing else."""),
-        HumanMessage(content=f"User message: {last_message.content}")
-    ]
-
-    # Call LLM asynchronously
-    try:
-        response = await llm.ainvoke(classification_prompt)
-        intent = response.content.strip().lower()
-
-        # Validate intent (fallback to "general" if unexpected)
-        valid_intents = ["coverage", "benefits", "claims", "general"]
-        if intent not in valid_intents:
-            intent = "general"
-
-        trace = add_trace_entry(
-            trace,
-            "classify_intent",
-            f"Intent classified as: {intent}",
-            {
-                "llm_prompt": f"System: {classification_prompt[0].content[:100]}...",
-                "llm_response": intent,
-                "user_message": last_message.content
-            }
-        )
-
-        return {
-            "intent": intent,
-            "execution_trace": trace
-        }
-
-    except Exception as e:
-        # If LLM call fails, default to general
-        trace = add_trace_entry(
-            trace,
-            "classify_intent",
-            f"Error classifying intent: {str(e)}. Defaulting to 'general'",
-            {"error": str(e)}
-        )
-
-        return {
-            "intent": "general",
-            "execution_trace": trace
-        }
-
-
-# ============================================================================
-# Node 3: Orchestrate Tools (Multi-tool coordinator)
+# Node 2: Orchestrate Tools (Multi-tool coordinator)
 # ============================================================================
 
 async def orchestrate_tools(state: ConversationState) -> Dict[str, Any]:
@@ -588,7 +494,7 @@ Now analyze the question above and respond with only the tool names:""")
 
 
 # ============================================================================
-# Node 4: Coverage Lookup (Tool-calling node - LEGACY, kept for single-tool routing)
+# Node 3: Coverage Lookup (Tool-calling node - LEGACY, kept for single-tool routing)
 # ============================================================================
 
 async def coverage_lookup_node(state: ConversationState) -> Dict[str, Any]:
@@ -873,7 +779,6 @@ IMPORTANT INSTRUCTIONS:
         return {
             "messages": [AIMessage(content=response.content)],
             "tool_results": None,  # Clear tool results for next turn
-            "intent": None,  # Clear intent for next classification
             "execution_trace": trace
         }
 
@@ -893,6 +798,5 @@ IMPORTANT INSTRUCTIONS:
         return {
             "messages": [error_response],
             "tool_results": None,
-            "intent": None,
             "execution_trace": trace
         }

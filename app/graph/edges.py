@@ -5,7 +5,7 @@ This module contains edge functions that determine routing logic in the graph.
 Conditional edges examine the state and decide which node to execute next.
 
 In LangGraph, edges connect nodes. Conditional edges add branching logic,
-allowing the graph to take different paths based on state values (like intent).
+allowing the graph to take different paths based on state values.
 """
 
 from typing import Literal
@@ -41,55 +41,7 @@ def should_continue_after_identify(state: ConversationState) -> Literal["orchest
     return "__end__"
 
 
-def route_after_intent(state: ConversationState) -> Literal["coverage_lookup", "benefit_verify", "claims_status", "generate_response"]:
-    """
-    Conditional edge function that routes based on classified intent.
-
-    This function is called after the classify_intent node completes.
-    It examines the 'intent' field in state and returns the name of the next
-    node to execute.
-
-    This demonstrates LangGraph's conditional routing:
-    - Read state to make routing decisions
-    - Return a string matching a node name
-    - Different intents lead to different execution paths
-
-    Routing Logic:
-        - "coverage" → coverage_lookup_node (query user's coverage details)
-        - "benefits" → benefit_verify_node (check specific service coverage)
-        - "claims" → claims_status_node (retrieve claims history)
-        - "general" → generate_response (skip tools, respond directly)
-
-    Args:
-        state: Current conversation state with classified intent
-
-    Returns:
-        str: Name of the next node to execute
-            - "coverage_lookup" for coverage questions
-            - "benefit_verify" for benefit verification questions
-            - "claims_status" for claims-related questions
-            - "generate_response" for general conversation
-
-    Example:
-        >>> state = {"intent": "coverage", ...}
-        >>> next_node = route_after_intent(state)
-        >>> print(next_node)
-        coverage_lookup
-
-    Note:
-        The return type uses Literal to help with type checking and ensure
-        we only return valid node names. This is optional but recommended.
-    """
-    intent = state.get("intent", "general")
-
-    # Route based on intent classification
-    if intent == "coverage":
-        return "coverage_lookup"
-    elif intent == "benefits":
-        return "benefit_verify"
-    elif intent == "claims":
-        return "claims_status"
-    else:
-        # Default to generate_response for general conversation
-        # This includes greetings, unclear questions, or off-topic messages
-        return "generate_response"
+# Note: The route_after_intent function has been removed as it's no longer used.
+# The current architecture uses orchestrate_tools which intelligently selects
+# and calls multiple tools using LLM-based decision making, eliminating the need
+# for manual intent classification and routing.
