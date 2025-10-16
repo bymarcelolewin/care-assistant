@@ -73,3 +73,10 @@ class ConversationState(TypedDict):
 
     # Execution trace for learning visibility
     execution_trace: List[dict]
+
+    # Progress messages for friendly UI feedback during tool execution
+    progress_messages: Optional[List[str]]
+
+    # Flag to indicate this is the first greeting after user identification
+    # When True, skip orchestrate_tools and go straight to END
+    first_greeting: Optional[bool]

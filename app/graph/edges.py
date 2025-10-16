@@ -18,15 +18,21 @@ def should_continue_after_identify(state: ConversationState) -> Literal["orchest
     Conditional edge to check if user is identified before continuing.
 
     This prevents the graph from continuing to orchestrate_tools when we're
-    still waiting for the user to provide their name.
+    still waiting for the user to provide their name, OR when we just showed
+    the first greeting and want to let the user ask a question.
 
     Args:
         state: Current conversation state
 
     Returns:
-        str: "orchestrate_tools" if user is identified, END if waiting for name
+        str: "orchestrate_tools" if user is identified and not first greeting,
+             END if waiting for name or showing first greeting
     """
-    # If user is identified, continue to orchestrate_tools
+    # If this is the first greeting after identification, stop and wait for user question
+    if state.get("first_greeting"):
+        return "__end__"
+
+    # If user is identified (and not first greeting), continue to orchestrate_tools
     if state.get("user_id"):
         return "orchestrate_tools"
 

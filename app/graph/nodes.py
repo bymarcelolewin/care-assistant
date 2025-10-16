@@ -11,10 +11,11 @@ Nodes are the building blocks of LangGraph. They define the logic at each step
 of the conversation flow.
 """
 
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 from datetime import datetime
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 from langchain_ollama import ChatOllama
+from pydantic import BaseModel, Field
 
 from .state import ConversationState
 from app.data.loader import get_data
@@ -31,6 +32,29 @@ llm = ChatOllama(
     model="llama3.3:70b-instruct-q4_K_S",
     temperature=0.7,  # Moderate creativity for conversational responses
 )
+
+
+# ============================================================================
+# Structured Output Models
+# ============================================================================
+
+class NameExtraction(BaseModel):
+    """
+    Structured output model for extracting a person's name from natural language.
+
+    This is used to handle various ways users might introduce themselves:
+    - "John"
+    - "I'm John"
+    - "My name is John Smith"
+    - "Call me John"
+    - "John, your patient"
+    """
+    name: Optional[str] = Field(
+        description="The person's first name or full name extracted from the message. Just the name, nothing else."
+    )
+    confidence: str = Field(
+        description="Confidence level: 'high' if clearly stated, 'low' if uncertain"
+    )
 
 
 # ============================================================================
@@ -116,7 +140,7 @@ async def identify_user(state: ConversationState) -> Dict[str, Any]:
     # If this is the very first interaction (no messages yet), prompt for name
     if len(messages) == 0:
         greeting = AIMessage(
-            content="Hello! I'm your CARE insurance assistant. What's your name?"
+            content="Hello! I'm your ❤️ CARE Assistant. What's your name?"
         )
         trace = add_trace_entry(
             trace,
@@ -141,7 +165,7 @@ async def identify_user(state: ConversationState) -> Dict[str, Any]:
     if not has_greeted:
         # Haven't asked yet, ask now
         greeting = AIMessage(
-            content="Hello! I'm your CARE insurance assistant. What's your name?"
+            content="Hello! I'm your ❤️ CARE Assistant. What's your name?"
         )
         trace = add_trace_entry(
             trace,
@@ -154,13 +178,56 @@ async def identify_user(state: ConversationState) -> Dict[str, Any]:
         }
 
     # User has responded after we asked for their name
-    # Extract the name from their message
+    # Use LLM to extract the name from their natural language message
     user_input = last_message.content.strip()
 
     trace = add_trace_entry(
         trace,
         "identify_user",
-        f"Searching for user by name: {user_input}"
+        f"Extracting name from user message: '{user_input}'"
+    )
+
+    # Create an LLM with structured output to extract the name
+    llm_with_structure = llm.with_structured_output(NameExtraction)
+
+    # Prompt the LLM to extract just the name
+    extraction_prompt = f"""Extract the person's name from this message: "{user_input}"
+
+Examples:
+- "I'm John" → name: "John"
+- "My name is Sarah Smith" → name: "Sarah Smith"
+- "Call me Mike" → name: "Mike"
+- "Emily" → name: "Emily"
+- "I'm Marcelo, your patient" → name: "Marcelo"
+
+Only extract the actual name, nothing else. If you're not sure, set confidence to 'low'."""
+
+    # Get the structured extraction
+    extraction_result = await llm_with_structure.ainvoke(extraction_prompt)
+    extracted_name = extraction_result.name
+
+    trace = add_trace_entry(
+        trace,
+        "identify_user",
+        f"LLM extracted name: '{extracted_name}' (confidence: {extraction_result.confidence})",
+        {"original_input": user_input, "extracted_name": extracted_name}
+    )
+
+    # If no name was extracted, ask again
+    if not extracted_name or extraction_result.confidence == "low":
+        retry_message = AIMessage(
+            content="I didn't quite catch your name. Could you please tell me your first name?"
+        )
+        return {
+            "messages": [retry_message],
+            "execution_trace": trace
+        }
+
+    # Search for the user by the extracted name
+    trace = add_trace_entry(
+        trace,
+        "identify_user",
+        f"Searching for user by extracted name: {extracted_name}"
     )
 
     # Load data and search for user by name (case-insensitive)
@@ -168,11 +235,11 @@ async def identify_user(state: ConversationState) -> Dict[str, Any]:
     found_user = None
 
     for user in data.get("users", []):
-        # Check if the input matches the user's first name (case-insensitive)
+        # Check if the extracted name matches the user's first name or full name (case-insensitive)
         user_name = user.get("name", "")
         first_name = user_name.split()[0].lower() if user_name else ""
 
-        if user_input.lower() == first_name or user_input.lower() == user_name.lower():
+        if extracted_name.lower() == first_name or extracted_name.lower() == user_name.lower():
             found_user = user
             break
 
@@ -180,6 +247,8 @@ async def identify_user(state: ConversationState) -> Dict[str, Any]:
         # User found! Load their profile
         user_id = found_user.get("user_id")
         user_name = found_user.get("name")
+        first_name = user_name.split()[0] if user_name else "there"
+        member_since = found_user.get("member_since", "")
 
         trace = add_trace_entry(
             trace,
@@ -188,27 +257,42 @@ async def identify_user(state: ConversationState) -> Dict[str, Any]:
             {"user_profile": found_user}
         )
 
-        welcome_message = AIMessage(
-            content=f"Hi {user_name.split()[0]}! I found your account. How can I help you with your insurance coverage today?"
-        )
+        # Format the member_since date to be more readable (e.g., "March 2022")
+        if member_since:
+            try:
+                date_obj = datetime.strptime(member_since, "%Y-%m-%d")
+                formatted_date = date_obj.strftime("%B %Y")
+                welcome_message = AIMessage(
+                    content=f"Welcome {first_name}! ❤️ Thank you for being a member since {formatted_date}. Do you have any questions about your plan, benefits, or claims?"
+                )
+            except ValueError:
+                # If date parsing fails, use a simpler welcome
+                welcome_message = AIMessage(
+                    content=f"Welcome {first_name}! ❤️ I found your account. Do you have any questions about your plan, benefits, or claims?"
+                )
+        else:
+            welcome_message = AIMessage(
+                content=f"Welcome {first_name}! ❤️ I found your account. Do you have any questions about your plan, benefits, or claims?"
+            )
 
         return {
             "user_id": user_id,
             "user_profile": found_user,
             "messages": [welcome_message],
-            "execution_trace": trace
+            "execution_trace": trace,
+            "first_greeting": True  # Flag to skip orchestration and show welcome message only
         }
     else:
         # User not found
         trace = add_trace_entry(
             trace,
             "identify_user",
-            f"User not found: {user_input}",
-            {"searched_name": user_input}
+            f"User not found: {extracted_name}",
+            {"searched_name": extracted_name}
         )
 
         not_found_message = AIMessage(
-            content=f"Sorry {user_input}, you are not in our system. Please contact support for assistance."
+            content=f"Sorry {extracted_name}, you are not in our system. Please contact support for assistance."
         )
 
         return {
@@ -339,12 +423,13 @@ async def orchestrate_tools(state: ConversationState) -> Dict[str, Any]:
         state: Current conversation state
 
     Returns:
-        dict: State updates with all tool_results and execution trace
+        dict: State updates with all tool_results, execution trace, and progress_messages
     """
     trace = state.get("execution_trace", [])
     user_id = state.get("user_id")
     messages = state.get("messages", [])
     user_profile = state.get("user_profile", {})
+    progress_messages = []
 
     if not messages:
         return {
@@ -439,11 +524,21 @@ Now analyze the question above and respond with only the tool names:""")
     if tool_names:
         # Execute each tool call
         for tool_name in tool_names:
+            # Add friendly progress message for this tool
+            tool_progress_messages = {
+                "coverage_lookup": "Let me check your coverage details...",
+                "benefit_verify": "Now let me verify what benefits are covered...",
+                "claims_status": "Let me look up your claims history..."
+            }
+
+            if tool_name in tool_progress_messages:
+                progress_messages.append(tool_progress_messages[tool_name])
+
             trace = add_trace_entry(
                 trace,
                 "orchestrate_tools",
                 f"Executing tool: {tool_name}",
-                {"tool_name": tool_name}
+                {"tool_name": tool_name, "progress_message": tool_progress_messages.get(tool_name, "")}
             )
 
             # Call the appropriate tool with user_id and query
@@ -475,7 +570,8 @@ Now analyze the question above and respond with only the tool names:""")
         return {
             "tool_results": all_tool_results,
             "needs_tool_call": False,
-            "execution_trace": trace
+            "execution_trace": trace,
+            "progress_messages": progress_messages
         }
     else:
         # LLM didn't call any tools - this is unusual but handle gracefully
