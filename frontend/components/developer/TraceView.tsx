@@ -3,14 +3,15 @@
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import { Badge } from "@/components/ui/badge"
 import { ChevronRight } from "lucide-react"
-import { TraceEntry } from "@/lib/types"
+import { TraceEntry, Message } from "@/lib/types"
 import { useState } from "react"
 
 interface TraceViewProps {
   entries: TraceEntry[]
+  messages: Message[]
 }
 
-export function TraceView({ entries }: TraceViewProps) {
+export function TraceView({ entries, messages }: TraceViewProps) {
   if (entries.length === 0) {
     return (
       <div className="text-sm text-muted-foreground text-center py-8">
@@ -19,11 +20,120 @@ export function TraceView({ entries }: TraceViewProps) {
     )
   }
 
+  // Group trace entries by the user message that triggered them
+  const groupedTraces = groupTracesByMessage(entries, messages)
+
   return (
-    <div className="space-y-2">
-      {entries.map((entry, index) => (
-        <TraceEntryItem key={index} entry={entry} />
+    <div className="space-y-4">
+      {groupedTraces.map((group, groupIndex) => (
+        <div key={groupIndex} className="space-y-2">
+          {/* User Prompt Display or Initial System Message */}
+          {group.userMessage ? (
+            <UserPromptDisplay message={group.userMessage} />
+          ) : (
+            <InitialSystemDisplay />
+          )}
+          {/* Trace Entries */}
+          {group.entries.map((entry, entryIndex) => (
+            <TraceEntryItem key={`${groupIndex}-${entryIndex}`} entry={entry} />
+          ))}
+        </div>
       ))}
+    </div>
+  )
+}
+
+/**
+ * Group trace entries by the user message that triggered them.
+ * Uses timestamp comparison to associate traces with messages.
+ */
+function groupTracesByMessage(
+  entries: TraceEntry[],
+  messages: Message[]
+): Array<{ userMessage: Message | null; entries: TraceEntry[] }> {
+  const userMessages = messages.filter((m) => m.role === "user")
+
+  if (userMessages.length === 0) {
+    // No user messages, return all entries as one group (initial traces)
+    return [{ userMessage: null, entries }]
+  }
+
+  const groups: Array<{ userMessage: Message | null; entries: TraceEntry[] }> = []
+
+  // First, find trace entries BEFORE the first user message (initial traces)
+  const firstUserMessageTime = new Date(userMessages[0].timestamp).getTime()
+  const initialEntries = entries.filter((entry) => {
+    const entryTime = new Date(entry.timestamp).getTime()
+    return entryTime < firstUserMessageTime
+  })
+
+  if (initialEntries.length > 0) {
+    groups.push({ userMessage: null, entries: initialEntries })
+  }
+
+  // Then, for each user message, find the trace entries that follow it
+  for (let i = 0; i < userMessages.length; i++) {
+    const userMessage = userMessages[i]
+    const nextUserMessage = userMessages[i + 1]
+
+    const messageTime = new Date(userMessage.timestamp).getTime()
+    const nextMessageTime = nextUserMessage
+      ? new Date(nextUserMessage.timestamp).getTime()
+      : Infinity
+
+    // Find trace entries between this message and the next
+    const groupEntries = entries.filter((entry) => {
+      const entryTime = new Date(entry.timestamp).getTime()
+      return entryTime >= messageTime && entryTime < nextMessageTime
+    })
+
+    if (groupEntries.length > 0) {
+      groups.push({ userMessage, entries: groupEntries })
+    }
+  }
+
+  // Reverse the groups so latest appears first
+  return groups.reverse()
+}
+
+/**
+ * Component to display user prompts with darker background
+ */
+function UserPromptDisplay({ message }: { message: Message }) {
+  return (
+    <div className="bg-slate-800 text-white p-3 rounded-lg">
+      <div className="flex items-start justify-between gap-2">
+        <div className="flex-1">
+          <p className="text-sm font-medium">{message.content}</p>
+          <p className="text-xs text-slate-400 mt-1">
+            {new Date(message.timestamp).toLocaleTimeString()}
+          </p>
+        </div>
+        <Badge variant="outline" className="bg-slate-700 border-slate-600 text-white flex-shrink-0">
+          User Prompt
+        </Badge>
+      </div>
+    </div>
+  )
+}
+
+/**
+ * Component to display initial system startup message
+ */
+function InitialSystemDisplay() {
+  return (
+    <div className="bg-slate-800 text-white p-3 rounded-lg">
+      <div className="flex items-start justify-between gap-2">
+        <div className="flex-1">
+          <p className="text-sm font-medium">System Initialization</p>
+          <p className="text-xs text-slate-400 mt-1">
+            Assistant startup and initial configuration
+          </p>
+        </div>
+        <Badge variant="outline" className="bg-slate-700 border-slate-600 text-white flex-shrink-0">
+          System
+        </Badge>
+      </div>
     </div>
   )
 }

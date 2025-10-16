@@ -6,14 +6,15 @@ import { Button } from "@/components/ui/button"
 import { ChevronDown, ChevronUp } from "lucide-react"
 import { TraceView } from "./TraceView"
 import { StateView } from "./StateView"
-import { TraceEntry, ConversationState } from "@/lib/types"
+import { TraceEntry, ConversationState, Message } from "@/lib/types"
 
 interface DeveloperPanelProps {
   trace: TraceEntry[]
   state: ConversationState | null
+  messages: Message[]
 }
 
-export function DeveloperPanel({ trace, state }: DeveloperPanelProps) {
+export function DeveloperPanel({ trace, state, messages }: DeveloperPanelProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -58,7 +59,7 @@ export function DeveloperPanel({ trace, state }: DeveloperPanelProps) {
             </TabsList>
 
             <TabsContent value="trace" className="p-4 max-h-[400px] overflow-y-auto">
-              <TraceView entries={trace} />
+              <TraceView entries={trace} messages={messages} />
             </TabsContent>
 
             <TabsContent value="state" className="p-4 max-h-[400px] overflow-y-auto">

@@ -28,17 +28,17 @@ This document outlines all the tasks to work on to deliver this particular versi
 | 2.3 | Test tab styling | Verify active tab has strong visual distinction with dark gray background and subtle rounded corners | 2.1, 2.2 | 🟢 Completed | USER |
 
 
-## Phase 3: User Prompt Display in Trace View
+## Phase 3: User Prompt Display in Trace View ✅ COMPLETED
 
 | ID  | Task             | Description                             | Dependencies | Status | Assigned To |
 |-----|------------------|-----------------------------------------|-------------|----------|--------|
-| 3.1 | Update TraceView props interface | Add `messages: Message[]` to TraceViewProps interface | Phase 1 | 🔴 Not Started | AGENT |
-| 3.2 | Import Message type | Add import for Message type from lib/types.ts in TraceView.tsx | 3.1 | 🔴 Not Started | AGENT |
-| 3.3 | Create UserPromptDisplay component | Build component to display user messages with darker background (bg-slate-800 or bg-zinc-900) | 3.2 | 🔴 Not Started | AGENT |
-| 3.4 | Implement grouping logic | Create function to group trace entries by the user message that triggered them (timestamp-based) | 3.3 | 🔴 Not Started | AGENT |
-| 3.5 | Update TraceView rendering | Render UserPrompt → TraceEntries → UserPrompt → TraceEntries pattern | 3.4 | 🔴 Not Started | AGENT |
-| 3.6 | Update parent component | Pass messages array to TraceView in DeveloperPanel.tsx | 3.5 | 🔴 Not Started | AGENT |
-| 3.7 | Test user prompt display | Verify user prompts appear with darker background before their trace entries | 3.6 | 🔴 Not Started | USER |
+| 3.1 | Update TraceView props interface | Add `messages: Message[]` to TraceViewProps interface | Phase 1 | 🟢 Completed | AGENT |
+| 3.2 | Import Message type | Add import for Message type from lib/types.ts in TraceView.tsx | 3.1 | 🟢 Completed | AGENT |
+| 3.3 | Create UserPromptDisplay component | Build component to display user messages with darker background (bg-slate-800) and System Initialization header | 3.2 | 🟢 Completed | AGENT |
+| 3.4 | Implement grouping logic | Create function to group trace entries by the user message that triggered them (timestamp-based), including initial system traces | 3.3 | 🟢 Completed | AGENT |
+| 3.5 | Update TraceView rendering | Render latest-first with UserPrompt → TraceEntries pattern, including System Initialization header for initial traces | 3.4 | 🟢 Completed | AGENT |
+| 3.6 | Update parent component | Pass messages array to TraceView in DeveloperPanel.tsx and page.tsx | 3.5 | 🟢 Completed | AGENT |
+| 3.7 | Test user prompt display | Verify user prompts appear with darker background, latest first, initial traces preserved with System header | 3.6 | 🟢 Completed | USER |
 
 
 ## Phase 4: Tool Results Display Investigation & Fix

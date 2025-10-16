@@ -160,7 +160,7 @@ export default function Home() {
           loadingMessage={loadingMessage}
         />
       </div>
-      <DeveloperPanel trace={trace} state={state} />
+      <DeveloperPanel trace={trace} state={state} messages={messages} />
     </div>
   )
 }
