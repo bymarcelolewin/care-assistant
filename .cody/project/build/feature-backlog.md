@@ -114,20 +114,22 @@ Redesign the chat window UI for a more cohesive and polished user experience wit
 | V5-8 | Message Bubble Styling | Custom rounded corners and lighter colors for message bubbles | High | 🟢 Completed |
 | V5-9 | Header Alignment | Align header elements with input box edges | High | 🟢 Completed |
 
-## Version 0.6.0 - Move Data Folder to Root - 🔴 Not Started
+## Version 0.6.0 - Move Data Folder to Root - 🟢 Completed
 Reorganize project structure by moving JSON data files to a root-level data folder for easier maintenance and clearer separation between data files and data-handling code.
 
+**Completion Date:** October 16, 2025
 **Scope:** Move `*.json` files from `/app/data/` to new `/data/` folder at root level, update all code references, and update documentation.
+**Total Tasks:** 21 tasks completed across 6 phases (see tasklist.md for full breakdown)
 
 | ID  | Feature                 | Description                              | Priority | Status |
 |-----|-------------------------|------------------------------------------|----------|--------|
-| V6-1 | Create Root Data Folder | Create new `/data` folder at project root level | High | 🔴 Not Started |
-| V6-2 | Move JSON Files | Move users.json, plans.json, and claims.json from `/app/data/` to `/data/` | High | 🔴 Not Started |
-| V6-3 | Update Data Loader Code | Update code in `/app/data/` that loads JSON files to reference new location | High | 🔴 Not Started |
-| V6-4 | Update Import Paths | Update all import statements and file path references throughout codebase | High | 🔴 Not Started |
-| V6-5 | Test Data Loading | Verify all JSON files load correctly from new location | High | 🔴 Not Started |
-| V6-6 | Update Documentation | Update README and any other docs to reflect new project structure | Medium | 🔴 Not Started |
-| V6-7 | End-to-End Testing | Test complete application flow to ensure no broken references | High | 🔴 Not Started |
+| V6-1 | Create Root Data Folder | Create new `/data` folder at project root level | High | 🟢 Completed |
+| V6-2 | Move JSON Files | Move users.json, plans.json, and claims.json from `/app/data/` to `/data/` | High | 🟢 Completed |
+| V6-3 | Update Data Loader Code | Update code in `/app/data/` that loads JSON files to reference new location | High | 🟢 Completed |
+| V6-4 | Update Import Paths | Update all import statements and file path references throughout codebase | High | 🟢 Completed |
+| V6-5 | Test Data Loading | Verify all JSON files load correctly from new location | High | 🟢 Completed |
+| V6-6 | Update Documentation | Update README and any other docs to reflect new project structure | Medium | 🟢 Completed |
+| V6-7 | End-to-End Testing | Test complete application flow to ensure no broken references | High | 🟢 Completed |
 
 ## Version 1.0.0 - Enhanced Learning Features - 🔴 Not Started
 Polish the application with enhanced visibility, documentation, and learning features.

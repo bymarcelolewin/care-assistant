@@ -3,11 +3,61 @@
 This document lists new features, bug fixes, and other changes implemented during a particular build, also known as a version.
 
 ## Table of Contents
+- [v0.6.0 - Move Data Folder to Root](#v060---move-data-folder-to-root---october-16-2025)
 - [v0.5.0 - UI Improvements AI Chatbot](#v050---ui-improvements-ai-chatbot---october-16-2025)
 - [v0.4.0 - Observability Enhancements](#v040---observability-enhancements---october-16-2025)
 - [v0.3.0 - Web Interface](#v030---web-interface---october-15-2025)
 - [v0.2.0 - Core Agent](#v020---core-agent)
 - [v0.1.0 - Environment & Foundation](#v010---environment--foundation)
+
+---
+
+# v0.6.0 - Move Data Folder to Root - October 16, 2025
+
+## Overview
+This version reorganizes the project structure by moving JSON data files from `/app/data/` to a new root-level `/data/` folder. This refactoring improves maintainability by providing clearer separation between data files (JSON) and data-handling code (Python modules), making it easier to manage and add new data files in the future.
+
+## Key Features
+- **Root-Level Data Folder**: Created new `/data` folder at project root for all JSON files
+- **Cleaner Project Structure**: Clear separation between code (`/app/data/`) and data files (`/data/`)
+- **Updated Path Resolution**: Modified `loader.py` to use `Path(__file__).parent.parent.parent / "data"` for cleaner path navigation
+- **Zero Breaking Changes**: Public API of loader module remains unchanged - all existing code works without modification
+
+## Enhancements
+- **Improved Code Comments**: Added clear explanation of path navigation in loader.py
+- **Updated Documentation**: README.md project structure diagram now accurately reflects new organization
+- **Better Docstrings**: Module docstring in loader.py now specifies data location at root level
+
+## Technical Changes
+- **File Moves**:
+  - `app/data/user_profiles.json` → `data/user_profiles.json`
+  - `app/data/insurance_plans.json` → `data/insurance_plans.json`
+  - `app/data/claims_data.json` → `data/claims_data.json`
+- **Code Updates**:
+  - Modified `DATA_DIR` constant in `app/data/loader.py` (line 30)
+  - Updated module docstring to reflect new location
+- **Documentation Updates**:
+  - Updated README.md project structure section
+  - Verified no other documentation needed updates
+
+## Bug Fixes
+None - this was a pure refactoring with no bug fixes
+
+## Testing
+- ✓ Data loading test passed - all 3 JSON files loaded successfully
+- ✓ User lookup test passed
+- ✓ Plan lookup test passed
+- ✓ Claims lookup test passed
+- ✓ Web interface test passed
+- ✓ Full conversation flow test passed
+- ✓ No file not found errors detected
+
+## Other Notes
+- Total of 21 tasks completed across 6 phases (Preparation, Create Structure, Update Code, Testing, Documentation, Final Verification)
+- Implementation was smoother than expected - only one line of code needed changing
+- Phase 1 analysis saved significant time by identifying minimal scope early
+- Comprehensive retrospective document created for lessons learned
+- This refactoring sets up better organization for future data additions
 
 ---
 

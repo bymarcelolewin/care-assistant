@@ -59,9 +59,9 @@ This document outlines all the tasks to work on to delivery this particular vers
 
 | ID  | Task             | Description                             | Dependencies | Status | Assigned To |
 |-----|------------------|-----------------------------------------|-------------|----------|--------|
-| P6-1 | Final End-to-End Test | Complete application test from startup to conversation | P5-1, P5-2, P5-3 | 🔴 Not Started | USER |
-| P6-2 | Code Review | Review all changes to ensure clean implementation | P6-1 | 🔴 Not Started | AGENT |
-| P6-3 | Commit to Git | Commit all changes with descriptive message | P6-2 | 🔴 Not Started | USER |
+| P6-1 | Final End-to-End Test | Complete application test from startup to conversation | P5-1, P5-2, P5-3 | 🟢 Completed | USER |
+| P6-2 | Code Review | Review all changes to ensure clean implementation | P6-1 | 🟢 Completed | AGENT |
+| P6-3 | Commit to Git | Commit all changes with descriptive message | P6-2 | 🟢 Completed | USER |
 
 
 ## Summary

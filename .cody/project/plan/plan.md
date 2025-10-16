@@ -192,7 +192,30 @@ This plan implements CARE (Coverage Analysis and Recommendation Engine) Assistan
 - User can send messages and receive responses
 - Full execution tracking visible in developer panel
 
-**Milestone 4: Enhanced Learning Features** (Version 1.0.0)
+**Milestone 4: Observability Enhancements** (Version 0.4.0) - ✅ COMPLETED
+- Rebranded Developer Panel to "Observability"
+- Improved terminology (State → Memory, Execution Trace → Execution Steps)
+- User prompts displayed alongside execution steps
+- Smart grouping of traces by triggering message
+- Enhanced tab styling for better UX
+- Fixed tool results display bug in Memory tab
+
+**Milestone 5: UI Improvements** (Version 0.5.0) - ✅ COMPLETED
+- Redesigned chat window with contained layout
+- Modernized input field with integrated send button
+- Enhanced message bubbles with custom styling
+- Animated thinking indicator
+- Improved spacing and visual hierarchy
+- Better header alignment
+
+**Milestone 6: Project Structure Reorganization** (Version 0.6.0) - ✅ COMPLETED
+- Moved JSON data files to root-level /data folder
+- Clear separation between data files and data-handling code
+- Updated loader.py path resolution
+- Comprehensive testing and documentation updates
+- Zero breaking changes to public API
+
+**Milestone 7: Enhanced Learning Features** (Version 1.0.0) - PLANNED
 - Conditional routing working
 - State persistence demonstrated across turns
 - Thinking process fully visible and collapsible
@@ -227,12 +250,13 @@ This plan implements CARE (Coverage Analysis and Recommendation Engine) Assistan
 4. **Create project structure**:
    ```
    /app
-     /data          # Mock JSON files
+     /data          # Data loader module (Python code)
      /tools         # Tool implementations
      /graph         # LangGraph nodes and edges
      /api           # FastAPI endpoints
-     /static        # HTML/CSS/JS
      main.py        # Entry point
+   /data            # Mock JSON data files (root level)
+   /frontend        # Next.js web interface
    ```
 
 5. **Run the application**:
