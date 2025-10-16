@@ -1,9 +1,9 @@
-# CARE Assistant - Coverage Analysis and Recommendation Engine
+# ❤️ CARE Assistant - Coverage Analysis and Recommendation Engine
 
 A hands-on learning application demonstrating core LangGraph concepts through a practical example: an AI-powered insurance coverage assistant that helps users understand their healthcare benefits.
 
-**Version:** 0.2.0 - Core Agent
-**Status:** ✅ LangGraph Agent Complete
+**Version:** 0.3.0 - Web Interface
+**Status:** ✅ Production-Ready Web Application
 
 ## 🎯 Project Goals
 
@@ -16,41 +16,70 @@ This is a **learning-focused POC** designed to demonstrate:
 
 ## 🏗️ Architecture
 
-- **Backend**: Python 3.10+ with FastAPI
+- **Backend**: Python 3.13 with FastAPI
 - **LLM Framework**: LangGraph + LangChain
 - **Local LLM**: Ollama (llama3.3:70b-instruct-q4_K_S)
-- **Frontend**: Simple HTML/CSS/JS (to be built in v0.3.0)
-- **Package Management**: uv
+- **Frontend**: Next.js 15 + TypeScript + shadcn/ui + Tailwind CSS
+- **Package Management**: uv (Python) + npm (Frontend)
 - **Data**: Mock JSON files (no real APIs or databases)
+- **Deployment**: Static build with single-server architecture
 
 ## 📁 Project Structure
 
 ```
 .
-├── app/                          # Application code
-│   ├── main.py                  # FastAPI entry point
+├── app/                          # Backend application code
+│   ├── main.py                  # FastAPI entry point + static serving
 │   ├── data/                    # Mock data and loader
 │   │   ├── user_profiles.json
 │   │   ├── insurance_plans.json
 │   │   ├── claims_data.json
 │   │   ├── loader.py
 │   │   └── README.md            # Data documentation
-│   ├── tools/                   # LangGraph tools (v0.2.0) ✅
+│   ├── tools/                   # LangGraph tools ✅
 │   │   ├── __init__.py
 │   │   ├── coverage.py          # Coverage lookup tool
 │   │   ├── benefits.py          # Benefit verification tool
 │   │   └── claims.py            # Claims status tool
-│   ├── graph/                   # LangGraph agent (v0.2.0) ✅
+│   ├── graph/                   # LangGraph agent ✅
 │   │   ├── __init__.py
-│   │   ├── state.py             # State schema
-│   │   ├── nodes.py             # Node implementations
-│   │   ├── edges.py             # Conditional edges
+│   │   ├── state.py             # State schema + first_greeting flag
+│   │   ├── nodes.py             # Nodes with LLM name extraction
+│   │   ├── edges.py             # Conditional routing
 │   │   └── graph.py             # Graph construction
-│   ├── api/                     # API endpoints (future)
-│   └── static/                  # Frontend files (v0.3.0)
+│   └── api/                     # REST API endpoints ✅
+│       ├── __init__.py
+│       ├── chat.py              # POST /api/chat endpoint
+│       └── sessions.py          # Session management
+├── frontend/                    # Next.js web application ✅
+│   ├── app/                     # Next.js App Router
+│   │   ├── layout.tsx           # Root layout with ErrorBoundary
+│   │   ├── page.tsx             # Main chat page
+│   │   └── globals.css          # Global styles
+│   ├── components/              # React components
+│   │   ├── chat/                # Chat UI components
+│   │   │   ├── ChatWindow.tsx
+│   │   │   ├── ChatHeader.tsx
+│   │   │   ├── MessageList.tsx
+│   │   │   ├── MessageInput.tsx
+│   │   │   └── LoadingIndicator.tsx
+│   │   ├── developer/           # Developer panel
+│   │   │   ├── DeveloperPanel.tsx
+│   │   │   ├── TraceView.tsx
+│   │   │   └── StateView.tsx
+│   │   ├── ui/                  # shadcn/ui components
+│   │   └── ErrorBoundary.tsx
+│   ├── lib/                     # Utilities
+│   │   ├── api.ts               # API client
+│   │   ├── types.ts             # TypeScript interfaces
+│   │   └── utils.ts             # Helper functions
+│   ├── out/                     # Static build output (production)
+│   ├── next.config.ts           # Next.js configuration
+│   ├── package.json             # Frontend dependencies
+│   └── tsconfig.json            # TypeScript configuration
 ├── tests/                       # Test files
 │   ├── test_ollama.py          # Ollama integration test
-│   └── test_agent.py           # Interactive CLI (v0.2.0) ✅
+│   └── test_agent.py           # Interactive CLI
 ├── .cody/                       # Cody Framework
 │   ├── config/
 │   │   ├── commands/           # Custom slash commands
@@ -64,13 +93,18 @@ This is a **learning-focused POC** designed to demonstrate:
 │       ├── build/              # Version build artifacts
 │       │   ├── feature-backlog.md
 │       │   ├── v0.1.0-environment-foundation/
-│       │   └── v0.2.0-core-agent/
+│       │   ├── v0.2.0-core-agent/
+│       │   └── v0.3.0-web-interface/  # ✅ Current version
+│       │       ├── design.md
+│       │       ├── tasklist.md
+│       │       └── retrospective.md
 │       └── library/
 │           ├── assets/
 │           └── docs/           # Documentation
 │               ├── langgraph-agent-architecture.md
 │               └── release-notes.md
-├── .venv/                       # Virtual environment (ignored)
+├── .venv/                       # Python virtual environment (ignored)
+├── node_modules/                # npm dependencies (ignored)
 └── README.md                    # This file
 ```
 
@@ -130,57 +164,84 @@ python tests/test_agent.py
 
 ## 🏃 Running the Application
 
-### Option 1: Interactive CLI (v0.2.0+)
+### Prerequisites
+
+Before running, ensure you have:
+1. **Ollama running** with the model:
+   ```bash
+   ollama serve
+   # In another terminal, verify:
+   ollama list  # Should show llama3.3:70b-instruct-q4_K_S
+   ```
+
+2. **Dependencies installed** (see Installation section below)
+
+### Production Mode (Recommended)
+
+Run the full application with the modern web UI:
+
+```bash
+# Start the server (serves both API and static frontend)
+uv run uvicorn app.main:app --port 8000
+
+# Open in browser
+http://localhost:8000/
+```
+
+**What you get:**
+- Modern chat interface with ❤️ CARE Assistant branding
+- Natural language name input ("I'm Sarah" works!)
+- Personalized welcome messages with member history
+- Real-time progress messages during tool execution
+- Developer panel with execution trace and state visualization
+- Session persistence across browser refreshes
+
+### Development Mode (For Frontend Development)
+
+Run backend and frontend separately with hot-reload:
+
+**Terminal 1 - Backend:**
+```bash
+uv run uvicorn app.main:app --reload --port 8000
+```
+
+**Terminal 2 - Frontend:**
+```bash
+cd frontend
+npm run dev
+```
+
+**Then open:** http://localhost:3000/
+
+**Benefits:**
+- Instant UI updates when editing React components
+- Better error messages and dev tools
+- TypeScript checking in real-time
+
+### CLI Mode (Testing/Development)
 
 Test the LangGraph agent directly via command line:
 
 ```bash
-# Make sure virtual environment is activated
-source .venv/bin/activate
-
-# Run the interactive agent
 python tests/test_agent.py
 ```
 
 **Available Commands:**
 - Type your questions naturally
-- `trace` - Show last turn's execution trace (detailed node flow)
-- `trace full` - Show complete trace from conversation start
+- `trace` - Show last turn's execution trace
 - `state` - Display current state summary
 - `clear` - Start a fresh conversation
-- `quit` - Exit the application
+- `quit` - Exit
 
-**Example Conversation:**
-```
-👤 You: Sarah
-🤖 Agent: Hi Sarah! I found your profile...
+### API Endpoints
 
-👤 You: What plan do I have, how long have I been a member, and do I have any pending claims?
-🤖 Agent: [Calls multiple tools and provides comprehensive answer]
+The backend provides these endpoints:
 
-👤 You: trace
-[Shows detailed execution: identify_user → orchestrate_tools → coverage_lookup + claims_status → generate_response]
-```
-
-### Option 2: FastAPI Server (Future)
-
-```bash
-# Make sure virtual environment is activated
-source .venv/bin/activate
-
-# Run the server
-uvicorn app.main:app --reload
-```
-
-The server will start at `http://localhost:8000`
-
-### Available Endpoints
-
-**Version 0.1.0** includes basic endpoints:
-
-- **GET /** - API information
+- **POST /api/chat** - Main chat endpoint (used by frontend)
   ```bash
-  curl http://localhost:8000/
+  curl -X POST http://localhost:8000/api/chat \
+    -H "Content-Type: application/json" \
+    -d '{"session_id": null, "message": "Hello"}'
   ```
 
 - **GET /health** - Health check
@@ -188,11 +249,8 @@ The server will start at `http://localhost:8000`
   curl http://localhost:8000/health
   ```
 
-- **GET /docs** - Interactive API documentation (Swagger UI)
-  - Open in browser: http://localhost:8000/docs
-
-- **GET /redoc** - Alternative API documentation
-  - Open in browser: http://localhost:8000/redoc
+- **GET /** - Serves the frontend (production mode)
+  - Open in browser: http://localhost:8000/
 
 ## 💬 Example Conversations (v0.2.0)
 
@@ -372,11 +430,38 @@ This project is structured for progressive learning:
 - Interactive CLI with execution trace visualization
 - Comprehensive documentation and inline comments
 
-### 🔄 Version 0.3.0 - Web Interface
-- HTML/CSS/JS chat interface
-- User selection dropdown
-- Message send/receive
-- Execution trace visualization
+### ✅ Version 0.3.0 - Web Interface (Completed)
+**All 58 tasks completed successfully!**
+
+- **Modern Web UI** - Next.js 15 + TypeScript + shadcn/ui components
+- **REST API** - FastAPI backend with session management
+- **LLM-Powered Features:**
+  - Smart name extraction (handles "I'm Marcelo, your patient" → "Marcelo")
+  - Personalized welcome: "Welcome Sarah! ❤️ Thank you for being a member since March 2022..."
+  - First greeting flag to prevent LLM override
+- **Real-Time Feedback:**
+  - Progress messages during tool execution
+  - Loading indicators
+  - Error handling and recovery
+- **Developer Tools:**
+  - Execution trace visualization
+  - State inspection panel
+  - Collapsible bottom panel (VS Code-style)
+- **Session Management:**
+  - In-memory backend storage
+  - localStorage frontend persistence
+  - Automatic cleanup of expired sessions
+  - Session survives browser refresh
+- **Production Deployment:**
+  - Static build (Next.js → `/frontend/out`)
+  - Single-server architecture (FastAPI serves everything)
+  - No separate frontend server needed
+- **UX Features:**
+  - ❤️ CARE Assistant branding
+  - Auto-scrolling messages
+  - Clear conversation button
+  - Keyboard shortcuts (Enter to send)
+  - User/AI message styling
 
 ### 🔄 Version 1.0.0 - Enhanced Learning Features
 - Detailed execution traces
