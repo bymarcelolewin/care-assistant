@@ -32,11 +32,9 @@ This is a **learning-focused POC** designed to demonstrate:
 .
 ├── app/                          # Backend application code
 │   ├── main.py                  # FastAPI entry point + static serving
-│   ├── data/                    # Mock data and loader
-│   │   ├── user_profiles.json
-│   │   ├── insurance_plans.json
-│   │   ├── claims_data.json
-│   │   ├── loader.py
+│   ├── data/                    # Data loader module
+│   │   ├── loader.py            # Data loading functions
+│   │   ├── __init__.py
 │   │   └── README.md            # Data documentation
 │   ├── tools/                   # LangGraph tools ✅
 │   │   ├── __init__.py
@@ -106,6 +104,10 @@ This is a **learning-focused POC** designed to demonstrate:
 │           └── docs/           # Documentation
 │               ├── langgraph-agent-architecture.md
 │               └── release-notes.md
+├── data/                        # Mock JSON data files (root level)
+│   ├── user_profiles.json      # User insurance profiles
+│   ├── insurance_plans.json    # Plan types and coverage
+│   └── claims_data.json        # Claims history
 ├── .venv/                       # Python virtual environment (ignored)
 ├── node_modules/                # npm dependencies (ignored)
 └── README.md                    # This file

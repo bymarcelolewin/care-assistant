@@ -5,7 +5,7 @@ This module loads JSON files containing mock insurance data into memory.
 The data is used by LangGraph tools to demonstrate realistic insurance
 coverage queries without requiring real APIs or databases.
 
-Data files:
+Data files (located in /data/ at project root):
 - user_profiles.json: Contains user information and insurance details
 - insurance_plans.json: Contains plan types and coverage information
 - claims_data.json: Contains historical claims records
@@ -25,8 +25,9 @@ from pathlib import Path
 from typing import Dict, List, Optional, Any
 
 
-# Get the directory where this file is located
-DATA_DIR = Path(__file__).parent
+# Get the root-level data directory
+# Navigate from /app/data/loader.py up to project root, then into /data
+DATA_DIR = Path(__file__).parent.parent.parent / "data"
 
 
 def load_json_file(filename: str) -> Dict[str, Any]:
