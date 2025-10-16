@@ -94,20 +94,25 @@ Improve the developer panel with better terminology and enhanced trace visibilit
 | V4-7 | Tab Styling Improvements | Make active tabs more visually distinct with darker background and white text, subtle rounded corners | High | 🟢 Completed |
 | V4-8 | Fix Tool Results Display | Investigate and fix why tool results are not showing in Memory (State) tab | High | 🟢 Completed |
 
-## Version 0.5.0 - UI Improvements AI Chatbot - 🔴 Not Started
+## Version 0.5.0 - UI Improvements AI Chatbot - 🟢 Completed
 Redesign the chat window UI for a more cohesive and polished user experience with better spacing, contained layout, and modernized input design.
 
+**Completion Date:** October 16, 2025
 **Reference Design:** `.cody/project/library/assets/Chat Window UX.png`
 **Scope:** Chat window only (Observability panel updates deferred to future version)
+**Total Tasks:** 21 tasks completed across 5 phases (see tasklist.md for full breakdown)
 
 | ID  | Feature                 | Description                              | Priority | Status |
 |-----|-------------------------|------------------------------------------|----------|--------|
-| V5-1 | Outer Container Border | Add gray rounded border around entire chat window for cohesive contained experience | High | 🔴 Not Started |
-| V5-2 | Inner Padding | Add buffer/padding between chat content and outer border on all sides | High | 🔴 Not Started |
-| V5-3 | Message Bubble Spacing | Increase left/right margins so messages don't go edge-to-edge within chat area | High | 🔴 Not Started |
-| V5-4 | Input Field Redesign | Redesign input field with background color and stroke/border matching design | High | 🔴 Not Started |
-| V5-5 | Send Button Inside Input | Move send button inside the input field on the right side | High | 🔴 Not Started |
-| V5-6 | Remove Input Separator | Remove border-top line between messages area and input area | High | 🔴 Not Started |
+| V5-1 | Outer Container Border | Add gray rounded border around entire chat window for cohesive contained experience | High | 🟢 Completed |
+| V5-2 | Inner Padding | Add buffer/padding between chat content and outer border on all sides | High | 🟢 Completed |
+| V5-3 | Message Bubble Spacing | Increase left/right margins so messages don't go edge-to-edge within chat area | High | 🟢 Completed |
+| V5-4 | Input Field Redesign | Redesign input field with background color and stroke/border matching design | High | 🟢 Completed |
+| V5-5 | Send Button Inside Input | Move send button inside the input field on the right side | High | 🟢 Completed |
+| V5-6 | Remove Input Separator | Remove border-top line between messages area and input area | High | 🟢 Completed |
+| V5-7 | Thinking Indicator | Add animated "thinking" indicator when AI is processing user messages | High | 🟢 Completed |
+| V5-8 | Message Bubble Styling | Custom rounded corners and lighter colors for message bubbles | High | 🟢 Completed |
+| V5-9 | Header Alignment | Align header elements with input box edges | High | 🟢 Completed |
 
 ## Version 1.0.0 - Enhanced Learning Features - 🔴 Not Started
 Polish the application with enhanced visibility, documentation, and learning features.

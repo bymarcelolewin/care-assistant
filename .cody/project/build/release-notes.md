@@ -3,10 +3,55 @@
 This document lists new features, bug fixes, and other changes implemented during a particular build, also known as a version.
 
 ## Table of Contents
-- [v0.4.0 - Observability Enhancements](#v040---observability-enhancements---january-2025)
+- [v0.5.0 - UI Improvements AI Chatbot](#v050---ui-improvements-ai-chatbot---october-16-2025)
+- [v0.4.0 - Observability Enhancements](#v040---observability-enhancements---october-16-2025)
 - [v0.3.0 - Web Interface](#v030---web-interface---october-15-2025)
 - [v0.2.0 - Core Agent](#v020---core-agent)
 - [v0.1.0 - Environment & Foundation](#v010---environment--foundation)
+
+---
+
+# v0.5.0 - UI Improvements AI Chatbot - October 16, 2025
+
+## Overview
+This version delivers a comprehensive redesign of the chat window UI, transforming it into a modern, polished messaging interface with improved visual hierarchy, better spacing, and enhanced user experience. The update focuses on creating a cohesive, contained design that matches modern chat applications while maintaining all existing functionality.
+
+## Key Features
+- **Contained Chat Layout**: Gray rounded border wraps entire chat window (header, messages, input) for cohesive experience
+- **Modernized Input Field**: Redesigned input with light gray background, border, and send button integrated inside (matching design reference)
+- **Enhanced Message Bubbles**: Custom rounded corners (straight bottom-left for AI, straight top-right for user) with no borders for cleaner appearance
+- **Thinking Indicator**: Animated three-dot "thinking" bubble appears when AI is processing, disappears on response
+- **Optimized Spacing**: Proper padding throughout (header alignment, message margins, scroll buffers) for balanced layout
+- **Improved Colors**: Lighter slate-500 for user messages, better contrast and readability
+
+## Enhancements
+- **Header Alignment**: Title and "Clear Conversation" button now align perfectly with input box edges (px-10 padding)
+- **Scroll Buffer**: Added extra bottom padding (pb-5) to prevent last message from touching input area
+- **Placeholder Text**: Changed to "Ask anything you like..." for friendlier tone
+- **No Page Scroll**: Added `overflow-hidden` to body to prevent unwanted scrollbar on input focus
+- **Vertical Input Spacing**: Added py-2 to input container for breathing room around send button
+- **Clean Input Styling**: Removed shadows, outlines, and borders from inner input element for seamless appearance
+
+## Design Implementation
+- **Reference Design**: Based on `Chat Window UX.png` mockup provided in assets
+- **Components Modified**:
+  - `ChatWindow.tsx` - Outer container structure and padding
+  - `ChatHeader.tsx` - Header alignment (px-10)
+  - `MessageList.tsx` - Message spacing (px-6), scroll buffer (pt-4 pb-5), bubble corners
+  - `MessageInput.tsx` - Input redesign with embedded button, vertical padding
+  - `ThinkingIndicator.tsx` - New component with animated dots
+  - `layout.tsx` - Overflow hidden on body
+  - `page.tsx` - Outer border and container structure
+
+## Bug Fixes
+None - purely visual/UX improvements
+
+## Other Notes
+- Total of 21 tasks completed across 5 phases
+- All planned features delivered plus 3 bonus features (thinking indicator, bubble styling, header alignment)
+- Design changes are CSS-only, no breaking changes to functionality
+- Successfully maintained all v0.4.0 features (observability panel, state management, tool execution)
+- Comprehensive retrospective document captures lessons learned for future UI work
 
 ---
 
