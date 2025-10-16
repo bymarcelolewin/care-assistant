@@ -1,7 +1,8 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { RotateCcw } from "lucide-react"
+import { RotateCcw, GitBranch } from "lucide-react"
+import Link from "next/link"
 
 interface ChatHeaderProps {
   onClearConversation: () => void
@@ -16,15 +17,27 @@ export function ChatHeader({ onClearConversation }: ChatHeaderProps) {
           Coverage Analysis and Recommendation Engine
         </p>
       </div>
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={onClearConversation}
-        className="gap-2"
-      >
-        <RotateCcw className="h-4 w-4" />
-        Clear Conversation
-      </Button>
+      <div className="flex items-center gap-2">
+        <Link href="/graph">
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-2"
+          >
+            <GitBranch className="h-4 w-4" />
+            View Graph
+          </Button>
+        </Link>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={onClearConversation}
+          className="gap-2"
+        >
+          <RotateCcw className="h-4 w-4" />
+          Clear Conversation
+        </Button>
+      </div>
     </div>
   )
 }

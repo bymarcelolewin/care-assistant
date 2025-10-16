@@ -22,6 +22,7 @@ from app.data.loader import initialize_data
 
 # Import API routers
 from app.api.chat import router as chat_router
+from app.api.graph import router as graph_router
 from app.api.sessions import cleanup_sessions
 
 # Initialize FastAPI application
@@ -43,6 +44,7 @@ app.add_middleware(
 
 # Include API routers
 app.include_router(chat_router)
+app.include_router(graph_router)
 
 # Serve static files from Next.js build
 FRONTEND_BUILD_DIR = Path(__file__).parent.parent / "frontend" / "out"
@@ -132,9 +134,15 @@ async def serve_frontend(full_path: str):
     """
     Serve the Next.js static frontend.
 
-    For any route that doesn't match an API endpoint, serve the index.html file.
-    This enables client-side routing in the React app.
+    For any route that doesn't match an API endpoint, try to serve the corresponding
+    .html file from the Next.js export. Falls back to index.html for client-side routing.
     """
+    # Try to serve the specific HTML file for this route (Next.js static export)
+    if full_path and not full_path.startswith("_next"):
+        html_file = FRONTEND_BUILD_DIR / f"{full_path}.html"
+        if html_file.exists():
+            return FileResponse(html_file)
+
     # Check if the frontend build exists
     index_file = FRONTEND_BUILD_DIR / "index.html"
 
