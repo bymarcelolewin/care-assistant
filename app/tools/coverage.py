@@ -89,7 +89,7 @@ def coverage_lookup(user_id: str, query: str = "") -> Dict[str, Any]:
             ),
 
             # Coverage details by category
-            "coverage_details": plan_details.get('coverage_details', {}),
+            "coverage_details": plan_details.get('coverage', {}),
 
             # Network information
             "network_info": plan_details.get('network_info', {}),

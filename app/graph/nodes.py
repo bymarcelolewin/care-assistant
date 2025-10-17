@@ -29,7 +29,7 @@ from app.tools import coverage_lookup, benefit_verify, claims_status
 # Initialize ChatOllama once and reuse across all nodes
 # This is more efficient than creating a new instance for each LLM call
 llm = ChatOllama(
-    model="llama3.3:70b-instruct-q4_K_S",
+    model="llama3.2",
     temperature=0.7,  # Moderate creativity for conversational responses
 )
 
