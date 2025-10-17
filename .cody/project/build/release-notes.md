@@ -3,12 +3,85 @@
 This document lists new features, bug fixes, and other changes implemented during a particular build, also known as a version.
 
 ## Table of Contents
+- [v0.7.0 - Move Observability to Pop-up Window](#v070---move-observability-to-pop-up-window---october-17-2025)
 - [v0.6.0 - Move Data Folder to Root](#v060---move-data-folder-to-root---october-16-2025)
 - [v0.5.0 - UI Improvements AI Chatbot](#v050---ui-improvements-ai-chatbot---october-16-2025)
 - [v0.4.0 - Observability Enhancements](#v040---observability-enhancements---october-16-2025)
 - [v0.3.0 - Web Interface](#v030---web-interface---october-15-2025)
 - [v0.2.0 - Core Agent](#v020---core-agent)
 - [v0.1.0 - Environment & Foundation](#v010---environment--foundation)
+
+---
+
+# v0.7.0 - Move Observability to Pop-up Window - October 17, 2025
+
+## Overview
+This version transforms the observability experience from a fixed bottom panel into three independent draggable windows (Memory, Graph, Steps) that users can toggle via checkboxes in the header. Windows open centered over the chat and are fully draggable with no restrictions, giving users complete control over their workspace layout.
+
+## Key Features
+- **Three Independent Draggable Windows**: Memory (400×500px), Graph (400×600px), and Steps (400×700px)
+- **Checkbox Controls**: Toggle windows on/off via checkboxes in chat header (Observability section)
+- **Centered Opening**: All windows open centered over the chat for optimal visibility
+- **Fully Draggable**: No bounds restrictions - drag windows anywhere on screen
+- **Z-Index Management**: Click any window to bring it to front
+- **Default Closed**: All windows closed by default for clean initial interface
+
+## Enhancements
+- **Unified Window Width**: Standardized all windows to 400px width for visual consistency
+- **Improved Header Styling**: Removed white space above headers, increased title font size (text-base)
+- **Clean Architecture**: Extracted content components (MemoryContent, GraphContent, ExecutionStepsContent) for reusability
+- **React 18+ Compatibility**: Used nodeRef with react-draggable to eliminate deprecation warnings
+- **Real-time Updates**: All windows update live as conversation progresses
+
+## Technical Changes
+- **New Components**:
+  - `/frontend/components/observability/DraggableMemoryWindow.tsx`
+  - `/frontend/components/observability/DraggableGraphWindow.tsx`
+  - `/frontend/components/observability/DraggableStepsWindow.tsx`
+  - `/frontend/components/observability/MemoryContent.tsx`
+  - `/frontend/components/observability/GraphContent.tsx`
+  - `/frontend/components/observability/ExecutionStepsContent.tsx`
+  - `/frontend/components/ui/checkbox.tsx` (shadcn/ui)
+  - `/frontend/components/ui/label.tsx` (shadcn/ui)
+
+- **Components Modified**:
+  - `frontend/app/page.tsx` - Added window state management and z-index handling
+  - `frontend/components/chat/ChatHeader.tsx` - Added checkbox controls
+  - `frontend/components/developer/StateView.tsx` - Now uses MemoryContent
+  - `frontend/components/developer/TraceView.tsx` - Now uses ExecutionStepsContent
+
+- **Components Removed**:
+  - `frontend/components/developer/DeveloperPanel.tsx` - Old bottom panel (no longer needed)
+  - `frontend/app/graph/page.tsx` - Standalone graph route (now in window)
+
+- **Dependencies Added**:
+  - `react-draggable` - Enables window dragging functionality
+
+## Bug Fixes
+- Fixed white space above window headers (added `p-0` to Card component)
+- Fixed deprecation warning by using `nodeRef` with react-draggable
+- Fixed inconsistent window widths by standardizing to 400px
+
+## Testing
+- ✓ All 8 phases completed (47 tasks total)
+- ✓ Phase 5: Styling & Polish verified
+- ✓ Phase 6: Real-time updates tested
+- ✓ Phase 7: Integration testing completed
+- ✓ Phase 8: Cleanup & documentation finished
+- ✓ Build successful with no errors
+- ✓ All windows draggable with free movement
+- ✓ Checkbox toggles working correctly
+- ✓ Z-index layering functional
+
+## Known Limitations
+- Windows do not persist positions across page refreshes
+- Windows are not resizable (fixed sizes only)
+- Desktop-only (not optimized for mobile)
+
+## Migration Notes
+- No breaking changes - windows simply replace the bottom panel
+- Users can continue using the app without opening any windows
+- `/graph` route no longer exists (use Graph checkbox to open window)
 
 ---
 
