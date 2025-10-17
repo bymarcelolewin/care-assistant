@@ -8,7 +8,7 @@ A hands-on learning application demonstrating core LangGraph concepts through a 
 
 To run it, just type `uv run uvicorn app.main:app --port 8000`
 
-**Version:** 0.4.0 - Observability Enhancements
+**Version:** 0.7.0 - Move Observability to Pop-up Windows
 **Status:** ✅ Production-Ready Web Application
 
 ## 🎯 Project Goals
@@ -66,9 +66,15 @@ This is a **learning-focused POC** designed to demonstrate:
 │   │   │   ├── ChatHeader.tsx
 │   │   │   ├── MessageList.tsx
 │   │   │   ├── MessageInput.tsx
-│   │   │   └── LoadingIndicator.tsx
-│   │   ├── developer/           # Observability panel
-│   │   │   ├── DeveloperPanel.tsx
+│   │   │   └── ThinkingIndicator.tsx
+│   │   ├── observability/       # Draggable observability windows
+│   │   │   ├── DraggableMemoryWindow.tsx
+│   │   │   ├── DraggableGraphWindow.tsx
+│   │   │   ├── DraggableStepsWindow.tsx
+│   │   │   ├── MemoryContent.tsx
+│   │   │   ├── GraphContent.tsx
+│   │   │   └── ExecutionStepsContent.tsx
+│   │   ├── developer/           # Legacy observability components
 │   │   │   ├── TraceView.tsx
 │   │   │   └── StateView.tsx
 │   │   ├── ui/                  # shadcn/ui components
@@ -99,7 +105,11 @@ This is a **learning-focused POC** designed to demonstrate:
 │       │   ├── v0.1.0-environment-foundation/
 │       │   ├── v0.2.0-core-agent/
 │       │   ├── v0.3.0-web-interface/
-│       │   └── v0.4.0-observability-enhancements/  # ✅ Current version
+│       │   ├── v0.4.0-observability-enhancements/
+│       │   ├── v0.5.0-ui-improvements-ai-chatbot/
+│       │   ├── v0.6.0-move-data-folder-to-root/
+│       │   ├── v0.6.1-code-cleanup-and-graph-view/
+│       │   └── v0.7.0-move-observability-to-popup/  # ✅ Current version
 │       │       ├── design.md
 │       │       ├── tasklist.md
 │       │       └── retrospective.md
@@ -202,7 +212,7 @@ http://localhost:8000/
 - Natural language name input ("I'm Sarah" works!)
 - Personalized welcome messages with member history
 - Real-time progress messages during tool execution
-- Observability panel with execution steps and memory visualization
+- Three draggable observability windows (Memory, Graph, Execution Steps) - toggle via checkboxes in header
 - Session persistence across browser refreshes
 
 ### Development Mode (For Frontend Development)
@@ -258,8 +268,27 @@ The backend provides these endpoints:
   curl http://localhost:8000/health
   ```
 
+- **GET /api/graph** - Returns graph visualization as PNG image
+
 - **GET /** - Serves the frontend (production mode)
   - Open in browser: http://localhost:8000/
+
+### Using Observability Windows
+
+The application includes three draggable windows for inspecting the agent's behavior:
+
+**To open windows:**
+1. Look for the checkboxes in the chat header (Observability section)
+2. Check the boxes for the windows you want to view:
+   - **Memory** - View current conversation state, user profile, and tool results
+   - **Graph** - See the visual LangGraph structure
+   - **Steps** - Watch the execution trace as the agent processes messages
+
+**Window features:**
+- **Draggable** - Click and drag the header to reposition anywhere on screen
+- **Stackable** - Click any window to bring it to the front
+- **Real-time updates** - All windows update live as you chat
+- **Default closed** - Windows are hidden by default for a clean interface
 
 ## 💬 Example Conversations (v0.2.0)
 
@@ -364,7 +393,7 @@ claims_status
 When the server starts, you should see:
 ```
 🚀 Starting CARE Assistant - Coverage Analysis and Recommendation Engine...
-📚 Version 0.1.0 - Environment & Foundation
+📚 Version 0.3.0 - Web Interface
 📂 Loading mock data...
   ✓ Loaded 3 user profiles
   ✓ Loaded 3 insurance plans
@@ -380,7 +409,7 @@ The application uses mock insurance data to demonstrate LangGraph concepts:
 - **3 Insurance Plans**: PPO Gold, HMO Silver, EPO Bronze
 - **9 Claims Records**: Mix of approved, pending, and denied claims
 
-See [app/data/README.md](app/data/README.md) for detailed schema documentation.
+Data files are located in the [data/](data/) folder at the project root.
 
 ## 🧪 Testing
 
@@ -419,7 +448,7 @@ uv pip list
 
 This project is structured for progressive learning:
 
-### ✅ Version 0.1.0 - Environment & Foundation (Current)
+### ✅ Version 0.1.0 - Environment & Foundation
 - Virtual environment setup
 - Dependency installation
 - Project structure
@@ -457,7 +486,7 @@ This project is structured for progressive learning:
   - Memory (state) inspection panel
   - System initialization tracking
   - Tool results display
-  - Collapsible bottom panel (VS Code-style)
+  - Bottom panel with tabs (later replaced by draggable windows in v0.7.0)
 - **Session Management:**
   - In-memory backend storage
   - localStorage frontend persistence
@@ -475,8 +504,6 @@ This project is structured for progressive learning:
   - User/AI message styling
 
 ### ✅ Version 0.4.0 - Observability Enhancements (Completed)
-**Latest version with improved developer experience!**
-
 - **Rebranded Panel:** "Developer Panel" → "Observability" with 🔍 icon
 - **Better Terminology:** "State" → "Memory", "Execution Trace" → "Execution Steps"
 - **Enhanced Tab Styling:** Active tabs with dark gray background and white text
@@ -485,11 +512,41 @@ This project is structured for progressive learning:
 - **System Initialization:** Clear visual indicator for initial startup traces
 - **Tool Results Fix:** Memory tab now properly displays tool results (was showing empty before)
 
+### ✅ Version 0.5.0 - UI Improvements AI Chatbot (Completed)
+- **Contained Chat Layout:** Gray rounded border wraps entire chat window
+- **Modernized Input Field:** Redesigned input with light gray background and integrated send button
+- **Enhanced Message Bubbles:** Custom rounded corners with cleaner appearance
+- **Thinking Indicator:** Animated three-dot bubble during AI processing
+- **Optimized Spacing:** Proper padding throughout for balanced layout
+- **Improved Colors:** Better contrast and readability
+
+### ✅ Version 0.6.0 - Move Data Folder to Root (Completed)
+- **Root-Level Data Folder:** Created `/data` folder at project root for all JSON files
+- **Cleaner Project Structure:** Clear separation between code and data files
+- **Updated Path Resolution:** Modified loader.py for cleaner path navigation
+- **Zero Breaking Changes:** Public API remains unchanged
+
+### ✅ Version 0.6.1 - Code Cleanup and Graph View (Completed)
+- **Graph Visualization:** Added `/api/graph` endpoint for PNG visualization
+- **Code Cleanup:** Removed 3 legacy node implementations (163 lines)
+- **Improved Routing:** Fixed static file routing for Next.js export
+- **Better Maintainability:** Reduced nodes.py from 803 to 640 lines
+
+### ✅ Version 0.7.0 - Move Observability to Pop-up Windows (Current)
+**Latest version with enhanced observability UX!**
+
+- **Three Draggable Windows:** Memory (400×500px), Graph (400×600px), Steps (400×700px)
+- **Checkbox Controls:** Toggle windows on/off via checkboxes in chat header
+- **Centered Opening:** All windows open centered over chat for optimal visibility
+- **Fully Draggable:** No bounds restrictions - drag windows anywhere
+- **Z-Index Management:** Click any window to bring it to front
+- **Real-time Updates:** All windows update live as conversation progresses
+
 ### 🔄 Version 1.0.0 - Enhanced Learning Features (Planned)
-- Detailed execution traces
-- State visualization
-- Comprehensive documentation
-- Extension guide
+- Conditional routing demonstrations
+- State persistence across turns
+- Comprehensive code documentation
+- Extension guide for adding new tools/nodes
 
 ## 🛠️ Development
 
@@ -580,9 +637,10 @@ lsof -i :8000
   - [plan.md](.cody/project/plan/plan.md) - Implementation plan
   - [workflow_diagram.mmd](.cody/project/plan/workflow_diagram.mmd) - System architecture
 
-- **Build Tracking**: [.cody/project/build/](./cody/project/build/)
+- **Build Tracking**: [.cody/project/build/](.cody/project/build/)
   - [feature-backlog.md](.cody/project/build/feature-backlog.md) - All versions and features
-  - [v0.1.0-environment-foundation/](.cody/project/build/v0.1.0-environment-foundation/) - Current version docs
+  - [release-notes.md](.cody/project/build/release-notes.md) - Comprehensive release history
+  - [v0.7.0-move-observability-to-popup/](.cody/project/build/v0.7.0-move-observability-to-popup/) - Current version docs
 
 - **Mock Data**: [app/data/README.md](app/data/README.md) - Data schemas and usage
 

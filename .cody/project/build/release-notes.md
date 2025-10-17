@@ -4,6 +4,7 @@ This document lists new features, bug fixes, and other changes implemented durin
 
 ## Table of Contents
 - [v0.7.0 - Move Observability to Pop-up Window](#v070---move-observability-to-pop-up-window---october-17-2025)
+- [v0.6.1 - Code Cleanup and Graph View](#v061---code-cleanup-and-graph-view---october-16-2025)
 - [v0.6.0 - Move Data Folder to Root](#v060---move-data-folder-to-root---october-16-2025)
 - [v0.5.0 - UI Improvements AI Chatbot](#v050---ui-improvements-ai-chatbot---october-16-2025)
 - [v0.4.0 - Observability Enhancements](#v040---observability-enhancements---october-16-2025)
@@ -82,6 +83,63 @@ This version transforms the observability experience from a fixed bottom panel i
 - No breaking changes - windows simply replace the bottom panel
 - Users can continue using the app without opening any windows
 - `/graph` route no longer exists (use Graph checkbox to open window)
+
+---
+
+# v0.6.1 - Code Cleanup and Graph View - October 16, 2025
+
+## Overview
+This version adds a graph visualization feature to the web interface and removes legacy unused code, making the codebase cleaner and more maintainable. Users can now view the LangGraph conversation flow structure directly in the browser.
+
+## Key Features
+- **Graph Visualization Page**: New `/graph` route displays LangGraph structure as PNG image (Note: This route was later replaced by the Graph window in v0.7.0)
+- **"View Graph" Button**: Added to chat header for easy navigation (Note: Replaced by checkbox in v0.7.0)
+- **Code Cleanup**: Removed 3 legacy node implementations (163 lines of unused code)
+- **Improved Static File Routing**: Fixed routing to properly serve Next.js static export HTML files
+
+## Enhancements
+- **Educational Node Descriptions**: Graph page includes explanations of each node's purpose
+- **Loading and Error States**: Proper UI feedback during graph loading
+- **"Back to Chat" Navigation**: Easy return to main interface
+- **Refresh Button**: Reload graph visualization on demand
+
+## Technical Changes
+- **New Files**:
+  - `app/api/graph.py` - REST API endpoint `GET /api/graph` returns PNG image
+  - `frontend/app/graph/page.tsx` - Graph visualization page component
+- **Modified Files**:
+  - `app/main.py` - Added graph router, fixed static file routing for Next.js export
+  - `app/graph/nodes.py` - Removed legacy nodes (640 lines vs 803 lines, -20%)
+  - `frontend/components/chat/ChatHeader.tsx` - Added "View Graph" button with GitBranch icon
+
+## Bug Fixes
+- Fixed static file routing to serve correct HTML files (graph.html vs always serving index.html)
+
+## Code Quality
+- **Before**: 6 node functions (3 unused), 803 lines in nodes.py
+- **After**: 3 node functions (all active), 640 lines in nodes.py
+- **Removed Legacy Nodes**:
+  - `coverage_lookup_node` (42 lines)
+  - `benefit_verify_node` (73 lines)
+  - `claims_status_node` (48 lines)
+
+## Testing
+- ✓ Backend API endpoint returns valid PNG image
+- ✓ Frontend page loads and displays graph correctly
+- ✓ Navigation buttons work properly
+- ✓ Static file routing serves correct HTML files
+- ✓ Error handling for loading states verified
+- ✓ All existing functionality preserved
+
+## Migration Notes
+- No breaking changes to existing API endpoints or frontend chat interface
+- Legacy nodes (`coverage_lookup_node`, `benefit_verify_node`, `claims_status_node`) removed - use `orchestrate_tools` node instead
+- No new dependencies added
+
+## Other Notes
+- Graph visualization uses LangGraph's built-in `get_graph().draw_mermaid_png()` method
+- Caching headers added for performance (1-hour cache)
+- Future enhancements could include interactive graphs, real-time updates, and zoom/pan functionality
 
 ---
 
