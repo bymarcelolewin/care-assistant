@@ -71,9 +71,6 @@ This is a **learning-focused POC** designed to demonstrate:
 │   │   │   ├── MemoryContent.tsx
 │   │   │   ├── GraphContent.tsx
 │   │   │   └── ExecutionStepsContent.tsx
-│   │   ├── developer/           # Legacy observability components
-│   │   │   ├── TraceView.tsx
-│   │   │   └── StateView.tsx
 │   │   ├── ui/                  # shadcn/ui components
 │   │   └── ErrorBoundary.tsx
 │   ├── lib/                     # Utilities
