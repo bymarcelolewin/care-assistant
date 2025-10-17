@@ -131,6 +131,29 @@ Reorganize project structure by moving JSON data files to a root-level data fold
 | V6-6 | Update Documentation | Update README and any other docs to reflect new project structure | Medium | 🟢 Completed |
 | V6-7 | End-to-End Testing | Test complete application flow to ensure no broken references | High | 🟢 Completed |
 
+## Version 0.7.0 - Move Observability to Pop-up Window - 🔴 Not Started
+Move the observability panel from the bottom of the chat window into three independent draggable windows (Memory, Graph, Steps) that users can show/hide individually via checkboxes.
+
+**Reference Design:** `.cody/project/library/assets/Observability UX Update.png` (evolved to three-window approach)
+**Scope:** Remove bottom panel, create three draggable windows, add checkbox controls, maintain real-time updates
+**Total Tasks:** 47 tasks across 8 phases (see tasklist.md for full breakdown)
+
+| ID  | Feature                 | Description                              | Priority | Status |
+|-----|-------------------------|------------------------------------------|----------|--------|
+| V7-1 | Remove Bottom Observability Panel | Remove the collapsible observability panel from main chat page to give full height to chat messages | High | 🔴 Not Started |
+| V7-2 | Install react-draggable Dependency | Install react-draggable library for drag functionality | High | 🔴 Not Started |
+| V7-3 | Extract Content Components | Create MemoryContent.tsx, GraphContent.tsx, ExecutionStepsContent.tsx from existing code | High | 🔴 Not Started |
+| V7-4 | Create Memory Draggable Window | Build DraggableMemoryWindow.tsx with header "Memory" and close button | High | 🔴 Not Started |
+| V7-5 | Create Graph Draggable Window | Build DraggableGraphWindow.tsx with header "Graph" and close button | High | 🔴 Not Started |
+| V7-6 | Create Steps Draggable Window | Build DraggableStepsWindow.tsx with header "Steps" and close button | High | 🔴 Not Started |
+| V7-7 | Add Checkbox Controls | Replace "View Graph" button with three checkboxes (Memory, Graph, Steps) in header | High | 🔴 Not Started |
+| V7-8 | Implement Window State Management | Add useState for showMemory, showGraph, showSteps to control visibility | High | 🔴 Not Started |
+| V7-9 | Configure Staggered Positioning | Set default positions for windows (staggered cascade from top-left) | High | 🔴 Not Started |
+| V7-10 | Add Z-Index Management | Implement click-to-bring-to-front for overlapping windows | Medium | 🔴 Not Started |
+| V7-11 | Style Window Components | Apply rounded borders, shadows, fixed sizes matching chat window design | High | 🔴 Not Started |
+| V7-12 | Real-time Updates | Ensure all three windows update live as user chats (maintain current behavior) | High | 🔴 Not Started |
+| V7-13 | End-to-End Testing | Test individual windows, multiple windows, dragging, checkboxes, and real-time updates | High | 🔴 Not Started |
+
 ## Version 1.0.0 - Enhanced Learning Features - 🔴 Not Started
 Polish the application with enhanced visibility, documentation, and learning features.
 
