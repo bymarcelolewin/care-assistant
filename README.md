@@ -1,5 +1,9 @@
 # ❤️ CARE Assistant - Coverage Analysis and Recommendation Engine
 
+![Version](https://img.shields.io/badge/version-0.7.0-blue)
+
+![CARE Assistant](./sample-screen.png)
+
 A hands-on learning application demonstrating core LangGraph concepts through a practical example: an AI-powered insurance coverage assistant that helps users understand their healthcare benefits.
 
 To run it, just type `uv run uvicorn app.main:app --port 8000`
