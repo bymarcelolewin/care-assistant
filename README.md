@@ -8,9 +8,6 @@ A hands-on learning application demonstrating core LangGraph concepts through a 
 
 To run it, just type `uv run uvicorn app.main:app --port 8000`
 
-**Version:** 0.7.0 - Move Observability to Pop-up Windows
-**Status:** ✅ Production-Ready Web Application
-
 ## 🎯 Project Goals
 
 This is a **learning-focused POC** designed to demonstrate:
