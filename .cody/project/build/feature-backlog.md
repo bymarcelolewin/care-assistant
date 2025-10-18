@@ -155,6 +155,26 @@ Move the observability panel from the bottom of the chat window into three indep
 | V7-12 | Real-time Updates | All three windows update live as user chats | High | 🟢 Completed |
 | V7-13 | End-to-End Testing | Tested all functionality - windows, dragging, checkboxes, real-time updates | High | 🟢 Completed |
 
+## Version 0.8.0 - Add LangSmith Observability - 🟢 Completed
+Integrate LangSmith for professional-grade tracing, debugging, and monitoring of the LangGraph agent.
+
+**Completion Date:** October 18, 2025
+**Total Tasks:** 45 tasks across 8 phases - ALL COMPLETED
+
+| ID  | Feature                 | Description                              | Priority | Status |
+|-----|-------------------------|------------------------------------------|----------|--------|
+| V8-1 | Install LangSmith Package | Add langsmith and python-dotenv to dependencies | High | � Completed |
+| V8-2 | Environment Configuration | Create .env.example file with LangSmith API key template | High | � Completed |
+| V8-3 | LangSmith Initialization | Add LangSmith client initialization with optional enablement | High | � Completed |
+| V8-4 | Tracing Configuration | Configure LangSmith tracing for LangGraph execution | High | � Completed |
+| V8-5 | Project Setup in LangSmith | Document how to create LangSmith project and get API key | High | � Completed |
+| V8-6 | Environment Variable Loading | Load LangSmith config from .env file in main.py | High | � Completed |
+| V8-7 | Graceful Degradation | Ensure app works without LangSmith (optional feature) | High | � Completed |
+| V8-8 | Update README | Add LangSmith setup instructions and benefits | Medium | � Completed |
+| V8-9 | Add Trace Metadata | Include session_id, user_id, and other context in traces | Medium | � Completed |
+| V8-10 | Test Tracing | Verify traces appear in LangSmith dashboard | High | � Completed |
+| V8-11 | Documentation | Create LangSmith guide in library/docs folder | Medium | � Completed |
+
 ## Version 1.0.0 - Enhanced Learning Features - 🔴 Not Started
 Polish the application with enhanced visibility, documentation, and learning features.
 

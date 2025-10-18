@@ -6,6 +6,8 @@ with the LangGraph agent. It handles session management, message processing,
 and response formatting.
 """
 
+import os
+import json
 from typing import Optional, List, Dict, Any
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
@@ -138,19 +140,70 @@ async def chat(request: ChatRequest):
             state["first_greeting"] = False
 
         # ====================================================================
-        # 3. Invoke LangGraph agent (async)
+        # 3. Invoke LangGraph agent (async) with LangSmith metadata
         # ====================================================================
+        
+        # Prepare metadata for LangSmith tracing
+        metadata = {
+            "session_id": session_id,
+            "user_id": state.get("user_id"),
+            "environment": os.getenv("ENVIRONMENT", "development")
+        }
+        
+        # Set metadata as environment variable for LangSmith
+        os.environ["LANGCHAIN_METADATA"] = json.dumps(metadata)
+        
         agent = compile_agent()
-        result = await agent.ainvoke(state)
+        
+        # Wrap agent invocation with error handling for offline/network failures
+        try:
+            result = await agent.ainvoke(state)
+        except Exception as e:
+            # Check if it's a LangSmith-related error (network, timeout, etc.)
+            error_str = str(e).lower()
+            if any(keyword in error_str for keyword in ["langsmith", "smith.langchain", "connection", "timeout", "network"]):
+                print(f"⚠️  LangSmith tracing failed (possibly offline): {e}")
+                print("🔄 Continuing agent execution without tracing...")
+                
+                # Temporarily disable LangSmith and retry
+                original_tracing = os.getenv("LANGCHAIN_TRACING_V2")
+                os.environ["LANGCHAIN_TRACING_V2"] = "false"
+                
+                try:
+                    result = await agent.ainvoke(state)
+                finally:
+                    # Restore original tracing setting
+                    if original_tracing:
+                        os.environ["LANGCHAIN_TRACING_V2"] = original_tracing
+            else:
+                # Not a LangSmith error, re-raise it
+                raise
 
         # ====================================================================
-        # 4. Extract AI response from last message
+        # 4. Extract AI response and token usage from last message
         # ====================================================================
         ai_response = ""
         if result["messages"]:
             last_message = result["messages"][-1]
             if isinstance(last_message, AIMessage):
                 ai_response = last_message.content
+                
+                # Track token usage if available
+                if hasattr(last_message, 'usage_metadata') and last_message.usage_metadata:
+                    input_tokens = last_message.usage_metadata.get('input_tokens', 0)
+                    output_tokens = last_message.usage_metadata.get('output_tokens', 0)
+                    total_tokens = last_message.usage_metadata.get('total_tokens', input_tokens + output_tokens)
+                    print(f"📊 Token Usage: {input_tokens} in / {output_tokens} out / {total_tokens} total")
+                elif hasattr(last_message, 'response_metadata') and last_message.response_metadata:
+                    # Try alternative metadata structure
+                    response_meta = last_message.response_metadata
+                    if 'token_usage' in response_meta:
+                        token_info = response_meta['token_usage']
+                        print(f"📊 Token Usage: {token_info}")
+                    else:
+                        # Ollama might not provide token counts directly
+                        # LangSmith tracks them via callbacks, but they're not in the message
+                        print(f"ℹ️  Token tracking: Available in LangSmith dashboard (Ollama doesn't return counts in response)")
 
         # ====================================================================
         # 5. Update session with new state

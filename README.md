@@ -1,6 +1,6 @@
 # ❤️ CARE Assistant - Coverage Analysis and Recommendation Engine
 
-![Version](https://img.shields.io/badge/version-0.7.0-blue)
+![Version](https://img.shields.io/badge/version-0.8.0-blue)
 
 ![CARE Assistant](./sample-screen.png)
 
@@ -22,6 +22,7 @@ This is a **learning-focused POC** designed to demonstrate:
 - **Backend**: Python 3.13 with FastAPI
 - **LLM Framework**: LangGraph + LangChain
 - **Local LLM**: Ollama (llama3.3:70b-instruct-q4_K_S)
+- **Observability**: LangSmith (optional cloud tracing)
 - **Frontend**: Next.js 15 + TypeScript + shadcn/ui + Tailwind CSS
 - **Package Management**: uv (Python) + npm (Frontend)
 - **Data**: Mock JSON files (no real APIs or databases)
@@ -131,6 +132,9 @@ Before you begin, ensure you have:
 - ✅ [Ollama](https://ollama.ai/) installed and running
 - ✅ Ollama model: `llama3.3:70b-instruct-q4_K_S` or `llama3.2:latest`
 
+**Optional (for enhanced observability):**
+- ⭐ [LangSmith](https://smith.langchain.com/) account (free tier) - See [LangSmith Setup Guide](.cody/project/library/docs/langsmith-setup.md)
+
 ### Installation
 
 **1. Clone or navigate to the project directory**
@@ -154,9 +158,28 @@ uv pip install langgraph langchain langchain-ollama langchain-community
 
 # Install web framework
 uv pip install fastapi uvicorn
+
+# Install observability (includes LangSmith + environment variable support)
+uv pip install langsmith python-dotenv
 ```
 
-**4. Verify Ollama is running**
+**4. (Optional) Configure LangSmith**
+
+If you want cloud-based tracing and observability:
+
+```bash
+# Copy the environment template
+cp .env.example .env
+
+# Edit .env and add your LangSmith API key
+# Get your key from https://smith.langchain.com/
+```
+
+See the complete [LangSmith Setup Guide](.cody/project/library/docs/langsmith-setup.md) for detailed instructions.
+
+**The app works perfectly without LangSmith** - it's an optional feature for enhanced observability.
+
+**5. Verify Ollama is running**
 ```bash
 # Check Ollama service
 ollama list
@@ -623,6 +646,29 @@ python -m uvicorn app.main:app
 lsof -i :8000
 ```
 
+### LangSmith Issues
+
+**Problem:** "LangSmith tracing disabled" message
+
+**Solution:**
+1. Check `.env` file exists in project root
+2. Verify `LANGCHAIN_TRACING_V2=true` (not "false")
+3. Restart the app after changes
+
+**Problem:** No traces in LangSmith dashboard
+
+**Solution:**
+1. Verify API key is correct in `.env`
+2. Check project name: `LANGCHAIN_PROJECT=care-assistant`
+3. Ensure internet connection is working
+4. See [LangSmith Setup Guide](.cody/project/library/docs/langsmith-setup.md) for details
+
+**Problem:** Don't see token counts in terminal
+
+**Solution:** This is normal! Ollama doesn't expose token counts in responses. However, **LangSmith tracks them automatically** via callbacks. You can see token usage in the LangSmith dashboard for each trace.
+
+**Note:** The app includes offline resilience - if LangSmith can't connect (no internet, invalid key), it logs a warning and continues working normally.
+
 ## 📝 Documentation
 
 - **Project Planning**: [.cody/project/plan/](./cody/project/plan/)
@@ -634,7 +680,10 @@ lsof -i :8000
 - **Build Tracking**: [.cody/project/build/](.cody/project/build/)
   - [feature-backlog.md](.cody/project/build/feature-backlog.md) - All versions and features
   - [release-notes.md](.cody/project/build/release-notes.md) - Comprehensive release history
-  - [v0.7.0-move-observability-to-popup/](.cody/project/build/v0.7.0-move-observability-to-popup/) - Current version docs
+  - [v0.8.0-add-langsmith-observability/](.cody/project/build/v0.8.0-add-langsmith-observability/) - Current version docs
+
+- **Observability**: [.cody/project/library/docs/](.cody/project/library/docs/)
+  - [langsmith-setup.md](.cody/project/library/docs/langsmith-setup.md) - Complete LangSmith setup guide
 
 - **Mock Data**: [app/data/README.md](app/data/README.md) - Data schemas and usage
 

@@ -3,6 +3,7 @@
 This document lists new features, bug fixes, and other changes implemented during a particular build, also known as a version.
 
 ## Table of Contents
+- [v0.8.0 - Add LangSmith Observability](#v080---add-langsmith-observability---october-18-2025)
 - [v0.7.0 - Move Observability to Pop-up Window](#v070---move-observability-to-pop-up-window---october-17-2025)
 - [v0.6.1 - Code Cleanup and Graph View](#v061---code-cleanup-and-graph-view---october-16-2025)
 - [v0.6.0 - Move Data Folder to Root](#v060---move-data-folder-to-root---october-16-2025)
@@ -11,6 +12,92 @@ This document lists new features, bug fixes, and other changes implemented durin
 - [v0.3.0 - Web Interface](#v030---web-interface---october-15-2025)
 - [v0.2.0 - Core Agent](#v020---core-agent)
 - [v0.1.0 - Environment & Foundation](#v010---environment--foundation)
+
+---
+
+# v0.8.0 - Add LangSmith Observability - October 18, 2025
+
+## Overview
+This version integrates **LangSmith**, LangChain's official cloud-based observability platform, providing professional-grade tracing, debugging, and monitoring for the LangGraph agent. LangSmith is completely optional - the app works perfectly without it, making it ideal for learning production-ready patterns without requiring external dependencies.
+
+## Key Features
+- **Cloud-Based Tracing**: All LangGraph executions, LLM calls, and tool invocations automatically traced to LangSmith dashboard
+- **Custom Metadata**: Traces include session_id, user_id, and environment tags for easy filtering
+- **Offline Resilience**: App continues working normally if LangSmith is unreachable (network down, invalid key, etc.)
+- **Token Tracking**: LangSmith automatically tracks input/output tokens via callbacks
+- **Optional Feature**: Complete graceful degradation - works with or without LangSmith account
+- **Secure Configuration**: API keys stored in `.env` file (git-ignored)
+
+## Enhancements
+- **Dual Observability**: Students can compare local draggable windows with cloud-based LangSmith traces
+- **Startup Status Logging**: Clear messages indicate if LangSmith is enabled/disabled
+- **Comprehensive Documentation**: 
+  - Complete setup guide (`.cody/project/library/docs/langsmith-setup.md`)
+  - README updates with prerequisites, installation, and troubleshooting
+  - Security best practices emphasized throughout
+- **Environment Template**: `.env.example` provides clear template with comments
+
+## Technical Changes
+- **Dependencies Added**:
+  - `langsmith` - LangSmith SDK for Python
+  - `python-dotenv` - Environment variable management
+
+- **Files Modified**:
+  - `app/main.py` - Added environment loading and LangSmith status logging
+  - `app/api/chat.py` - Added trace metadata and offline error handling
+  - `.gitignore` - Refined to allow `.env.example` while ignoring `.env`
+  - `README.md` - Added LangSmith sections (prerequisites, installation, troubleshooting)
+
+- **Files Created**:
+  - `.env.example` - Environment variable template (safe to commit)
+  - `.env` - Actual configuration with API key (git-ignored)
+  - `.cody/project/library/docs/langsmith-setup.md` - Complete setup guide
+
+## Implementation Details
+- **Metadata System**: Uses `LANGCHAIN_METADATA` environment variable to pass custom metadata
+- **Error Handling**: Try/except wrapper detects LangSmith network errors and falls back gracefully
+- **Auto-Instrumentation**: LangChain automatically traces all operations when `LANGCHAIN_TRACING_V2=true`
+- **Token Tracking**: While Ollama doesn't expose tokens in responses, LangSmith captures them via callbacks
+
+## Testing
+- ✓ All 8 phases completed (45 tasks total)
+- ✓ Basic conversation flow with LangSmith enabled
+- ✓ Multi-tool queries traced correctly
+- ✓ User identification flow captured
+- ✓ Traces visible in LangSmith dashboard
+- ✓ Custom metadata (session_id, user_id) present
+- ✓ Graceful degradation (works when disabled)
+- ✓ Local observability windows still functional
+- ✓ Token usage visible in dashboard
+
+## Security
+- ✅ `.env` file properly git-ignored
+- ✅ `.env.example` safe to commit (no secrets)
+- ✅ Documentation emphasizes never committing API keys
+- ✅ Environment variables loaded before imports
+
+## Learning Value
+- **Production Patterns**: Demonstrates proper API key management with environment variables
+- **Optional Features**: Shows how to add features without breaking core functionality
+- **Error Handling**: Teaches resilience and graceful degradation
+- **Dual Observability**: Provides comparison between local and cloud-based tracing
+- **Security**: Emphasizes best practices for handling secrets
+
+## Known Limitations
+- Token counts not visible in terminal (Ollama limitation) - available in LangSmith dashboard only
+- Requires internet connection for cloud tracing (gracefully degrades when offline)
+- Free tier has usage limits (generous for learning purposes)
+
+## Migration Notes
+- No breaking changes - completely backward compatible
+- App works identically with or without LangSmith
+- To enable: Create `.env` file with LangSmith API key
+- To disable: Set `LANGCHAIN_TRACING_V2=false` or delete `.env`
+
+## Future Enhancements
+- Consider adding 4th draggable window showing LangSmith status
+- Potential for custom metrics tracking (tools per turn, response times)
+- Could add trace annotations for richer debugging context
 
 ---
 

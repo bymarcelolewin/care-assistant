@@ -224,7 +224,16 @@ This plan implements CARE (Coverage Analysis and Recommendation Engine) Assistan
 - Real-time updates for all three windows
 - Improved observability UX with separate, movable panels
 
-**Milestone 8: Enhanced Learning Features** (Version 1.0.0) - PLANNED
+**Milestone 8: LangSmith Observability** (Version 0.8.0) - ✅ COMPLETED
+- Integrated LangSmith for cloud-based tracing and monitoring
+- Added environment variable configuration (.env file)
+- Implemented custom trace metadata (session_id, user_id, environment)
+- Added offline resilience and graceful degradation
+- Token tracking via LangSmith callbacks
+- Comprehensive documentation and setup guide
+- Optional feature - app works perfectly without it
+
+**Milestone 9: Enhanced Learning Features** (Version 1.0.0) - PLANNED
 - Conditional routing working
 - State persistence demonstrated across turns
 - Thinking process fully visible in separate windows

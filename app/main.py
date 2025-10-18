@@ -11,11 +11,17 @@ Run with: uvicorn app.main:app --reload
 """
 
 import asyncio
+import os
 from pathlib import Path
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+# This must happen before any LangChain/LangGraph imports
+load_dotenv()
 
 # Import data loader
 from app.data.loader import initialize_data
@@ -94,7 +100,19 @@ async def startup_event():
     global cleanup_task
 
     print("🚀 Starting CARE Assistant - Coverage Analysis and Recommendation Engine...")
-    print("📚 Version 0.3.0 - Web Interface")
+    print("📚 Version 0.8.0 - LangSmith Observability")
+
+    # Check if LangSmith tracing is enabled
+    langsmith_enabled = os.getenv("LANGCHAIN_TRACING_V2", "").lower() == "true"
+    
+    if langsmith_enabled:
+        project_name = os.getenv("LANGCHAIN_PROJECT", "default")
+        print("✅ LangSmith tracing enabled")
+        print(f"📊 Project: {project_name}")
+        print(f"🌐 Dashboard: https://smith.langchain.com/")
+    else:
+        print("⚪ LangSmith tracing disabled (optional feature)")
+        print("💡 To enable: Set LANGCHAIN_TRACING_V2=true in .env file")
 
     # Load mock data into memory
     initialize_data()
