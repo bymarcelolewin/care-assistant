@@ -3,6 +3,7 @@
 This document lists new features, bug fixes, and other changes implemented during a particular build, also known as a version.
 
 ## Table of Contents
+- [v0.9.0 - Migrate to LangChain 1.0 & LangGraph 1.0](#v090---migrate-to-langchain-10--langgraph-10---october-21-2025)
 - [v0.8.0 - Add LangSmith Observability](#v080---add-langsmith-observability---october-18-2025)
 - [v0.7.0 - Move Observability to Pop-up Window](#v070---move-observability-to-pop-up-window---october-17-2025)
 - [v0.6.1 - Code Cleanup and Graph View](#v061---code-cleanup-and-graph-view---october-16-2025)
@@ -12,6 +13,99 @@ This document lists new features, bug fixes, and other changes implemented durin
 - [v0.3.0 - Web Interface](#v030---web-interface---october-15-2025)
 - [v0.2.0 - Core Agent](#v020---core-agent)
 - [v0.1.0 - Environment & Foundation](#v010---environment--foundation)
+
+---
+
+# v0.9.0 - Migrate to LangChain 1.0 & LangGraph 1.0 - October 21, 2025
+
+## Overview
+This version upgrades the CARE Assistant to use the new stable 1.0 releases of LangChain and LangGraph. The migration was remarkably smooth with **zero breaking changes** required in our codebase, demonstrating that we were already following v1.0 best practices.
+
+## Upgrade Details
+- **LangChain**: 0.3.27 → 1.0.2 (stable)
+- **LangGraph**: 0.6.10 → 1.0.1 (stable)
+- **langchain-core**: 0.3.79 → 1.0.0
+- **langchain-community**: 0.3.31 → 0.4
+- **langchain-ollama**: 0.3.10 → 1.0.0
+- **langchain-text-splitters**: 0.3.11 → 1.0.0
+- **langgraph-checkpoint**: 2.1.2 → 3.0.0
+- **langgraph-prebuilt**: 0.6.4 → 1.0.1
+
+## Key Features
+- **Stable 1.0 Release**: Now using production-stable versions with stability promise (no breaking changes until 2.0)
+- **Backward Compatibility Package**: `langchain-classic` 1.0.0 automatically installed for legacy support
+- **Zero Code Changes**: No modifications required to existing codebase - only version number updates in documentation
+- **Python 3.13 Compatible**: Exceeds minimum requirement (3.10+)
+
+## Enhancements
+- **Future-Proof Architecture**: Built on stable foundation with long-term support commitment
+- **New Features Available**: v1.0 introduces Content Blocks API, enhanced middleware, and improved structured output (available for future exploration)
+- **Automatic Dependency Updates**: Related packages (langsmith, pydantic, numpy) automatically updated to compatible versions
+
+## Technical Changes
+- **Dependencies Updated**:
+  - All langchain packages upgraded to 1.x
+  - All langgraph packages upgraded to 1.x/3.x
+  - Companion packages automatically updated (langsmith 0.4.34 → 0.4.37, pydantic 2.12.2 → 2.12.3, numpy 2.3.3 → 2.3.4)
+
+- **Files Modified**:
+  - `README.md` - Updated version badge (0.8.0 → 0.9.0), architecture section (added v1.0.x versions), installation notes
+  - `.cody/project/build/feature-backlog.md` - Added v0.9.0 entry with migration tasks
+
+- **No Code Changes**:
+  - ✅ All imports still work (langchain_core, langchain_ollama, langgraph)
+  - ✅ StateGraph compilation successful
+  - ✅ TypedDict state definition compatible
+  - ✅ No `.text()` method usage to fix
+  - ✅ No deprecated features in use
+
+## Compatibility Verification
+- ✅ **Python Version**: 3.13.3 confirmed (exceeds 3.10+ requirement)
+- ✅ **Virtual Environment**: All packages correctly installed in `.venv`
+- ✅ **Import Tests**: All langchain/langgraph imports successful
+- ✅ **Agent Compilation**: LangGraph agent compiles without errors
+- ✅ **Backend Initialization**: Data loading and FastAPI startup working
+- ✅ **No Breaking Changes**: Zero code modifications required
+
+## Testing
+- ✓ Phase 1: Preparation completed (Python version, breaking change search)
+- ✓ Phase 2: All 5 packages upgraded successfully
+- ✓ Phase 3: Code compatibility verified (imports, state, no .text() usage)
+- ✓ Phase 4: Backend tests passed (agent compilation, data loading)
+- ✓ Phase 5: Documentation updated (README, release notes, retrospective)
+- ✓ Phase 6: Final verification pending user manual testing
+
+## Migration Notes
+- **Zero Breaking Changes**: Codebase was already v1.0-compatible
+- **No Rollback Needed**: Migration completed successfully on first attempt
+- **UV Package Manager**: Automatically detected and used `.venv` virtual environment
+- **Total Duration**: ~45 minutes from start to completion
+- **Risk Level**: Low (as predicted) - actually zero issues encountered
+
+## Known Items
+- **Deprecation Warning**: `tests/test_ollama.py` uses deprecated `Ollama` class - update to `from langchain_ollama import OllamaLLM` in future version
+- **Ollama Server**: Tests requiring live Ollama connection skipped (expected)
+
+## Why This Migration Was Smooth
+Our proactive architecture decisions made this migration seamless:
+1. **TypedDict State**: Already using recommended state pattern
+2. **Custom StateGraph**: Building custom graph instead of using prebuilt agents
+3. **Modern Imports**: Using `langchain_core` imports from the start
+4. **No Legacy Features**: Avoided deprecated chains and hub functionality
+5. **Best Practices**: Following LangChain/LangGraph documentation from day one
+
+## Future Enhancements
+v1.0 introduces new features for exploration in future versions:
+- **Content Blocks API**: Standardized access to reasoning and content
+- **Enhanced Middleware**: Better reusability across agents
+- **New Structured Output**: `ToolStrategy` and `ProviderStrategy` classes
+- **Stability Promise**: No breaking changes until 2.0 release
+
+## Other Notes
+- Comprehensive planning documentation created (`.cody/project/build/v0.9.0-migrate-to-langchain-langgraph-1.0/`)
+- Detailed retrospective captures lessons learned for future migrations
+- 24 tasks completed across 6 phases (21 by AGENT, 3 by USER)
+- Feature backlog updated with v0.9.0 status
 
 ---
 

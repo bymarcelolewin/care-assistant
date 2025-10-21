@@ -175,18 +175,28 @@ Integrate LangSmith for professional-grade tracing, debugging, and monitoring of
 | V8-10 | Test Tracing | Verify traces appear in LangSmith dashboard | High | � Completed |
 | V8-11 | Documentation | Create LangSmith guide in library/docs folder | Medium | � Completed |
 
-## Version 1.0.0 - Enhanced Learning Features - 🔴 Not Started
-Polish the application with enhanced visibility, documentation, and learning features.
+## Version 0.9.0 - Migrate to LangChain 1.0 & LangGraph 1.0 - 🔴 Not Started
+Upgrade from LangChain 0.3.27 and LangGraph 0.6.10 to stable 1.0 releases (LangChain 1.0.2, LangGraph 1.0.1).
+
+**Target Date:** October 21, 2025
+**Scope:** Focused migration - package upgrades and breaking change fixes only (no feature enhancements)
+**Total Tasks:** 24 tasks across 6 phases (see tasklist.md for full breakdown)
+**Risk Level:** Low (already using v1.0-compatible patterns)
 
 | ID  | Feature                 | Description                              | Priority | Status |
 |-----|-------------------------|------------------------------------------|----------|--------|
-| V4-1 | Enhanced Execution Trace | Show detailed node transitions, tool calls, and state changes | High | 🔴 Not Started |
-| V4-2 | State Visualization | Display current conversation state in thinking process view | High | 🔴 Not Started |
-| V4-3 | Conditional Routing Demo | Ensure different intents trigger different execution paths visibly | High | 🔴 Not Started |
-| V4-4 | Code Comments & Documentation | Add extensive inline comments explaining LangGraph concepts | High | 🔴 Not Started |
-| V4-5 | README with Instructions | Write comprehensive README with setup, usage, and learning guide | High | 🔴 Not Started |
-| V4-6 | Tool Call Visibility | Highlight when and why tools are called in the execution trace | High | �4 Not Started |
-| V4-7 | Conversation History Display | Show full conversation history with state context | Medium | 🔴 Not Started |
-| V4-8 | Error Handling | Add basic error handling and user-friendly error messages | Medium | 🔴 Not Started |
-| V4-9 | Extension Guide | Add comments or documentation on how to add new tools or nodes | Medium | 🔴 Not Started |
-| V4-10 | Final Testing | Comprehensive test of all learning objectives and success criteria | High | 🔴 Not Started |
+| V9-1 | Verify Python Version | Confirm Python 3.10+ requirement (we have 3.13) | High | 🔴 Not Started |
+| V9-2 | Create Git Backup | Create pre-migration commit and tag for rollback safety | High | 🔴 Not Started |
+| V9-3 | Search Breaking Changes | Search codebase for .text() method usage and deprecated imports | High | 🔴 Not Started |
+| V9-4 | Upgrade langchain-core | Upgrade foundation package to latest 1.x | High | 🔴 Not Started |
+| V9-5 | Upgrade langgraph | Upgrade langgraph to 1.0.1 | High | 🔴 Not Started |
+| V9-6 | Upgrade langchain | Upgrade main langchain package to 1.0.2 | High | 🔴 Not Started |
+| V9-7 | Upgrade Companion Packages | Upgrade langchain-community and langchain-ollama | High | 🔴 Not Started |
+| V9-8 | Fix Breaking Changes | Replace .text() with .text property if found | High | 🔴 Not Started |
+| V9-9 | Test Ollama Integration | Run tests/test_ollama.py successfully | High | 🔴 Not Started |
+| V9-10 | Test Interactive CLI | Run tests/test_agent.py and verify all scenarios | High | 🔴 Not Started |
+| V9-11 | Test Backend Server | Start uvicorn and verify no errors, data loads | High | 🔴 Not Started |
+| V9-12 | Test API Endpoints | Test /health and /api/chat endpoints | High | 🔴 Not Started |
+| V9-13 | Update README Versions | Update version badge and architecture section | Medium | 🔴 Not Started |
+| V9-14 | Create Retrospective | Document migration experience and lessons learned | Medium | 🔴 Not Started |
+| V9-15 | Final Verification | Run all tests and commit v0.9.0 | High | 🔴 Not Started |

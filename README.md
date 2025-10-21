@@ -1,6 +1,6 @@
 # ❤️ CARE Assistant - Coverage Analysis and Recommendation Engine
 
-![Version](https://img.shields.io/badge/version-0.8.0-blue)
+![Version](https://img.shields.io/badge/version-0.9.0-blue)
 
 ![CARE Assistant](./sample-screen.png)
 
@@ -20,7 +20,7 @@ This is a **learning-focused POC** designed to demonstrate:
 ## 🏗️ Architecture
 
 - **Backend**: Python 3.13 with FastAPI
-- **LLM Framework**: LangGraph + LangChain
+- **LLM Framework**: LangGraph 1.0.1 + LangChain 1.0.2
 - **Local LLM**: Ollama (llama3.3:70b-instruct-q4_K_S)
 - **Observability**: LangSmith (optional cloud tracing)
 - **Frontend**: Next.js 15 + TypeScript + shadcn/ui + Tailwind CSS
@@ -153,7 +153,7 @@ source .venv/bin/activate
 
 **3. Install dependencies**
 ```bash
-# Install core dependencies
+# Install core dependencies (v1.0+)
 uv pip install langgraph langchain langchain-ollama langchain-community
 
 # Install web framework
@@ -162,6 +162,8 @@ uv pip install fastapi uvicorn
 # Install observability (includes LangSmith + environment variable support)
 uv pip install langsmith python-dotenv
 ```
+
+**Note**: This project uses LangChain 1.0.2 and LangGraph 1.0.1 (stable releases). The installation commands above will automatically install the latest 1.x versions.
 
 **4. (Optional) Configure LangSmith**
 
