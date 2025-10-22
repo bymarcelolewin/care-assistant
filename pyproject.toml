@@ -1,0 +1,30 @@
+[project]
+name = "care-assistant"
+version = "0.9.0"
+description = "CARE Assistant - Coverage Analysis and Recommendation Engine"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    # LangChain & LangGraph
+    "langchain==1.0.2",
+    "langchain-core==1.0.0",
+    "langchain-community==0.4",
+    "langchain-ollama==1.0.0",
+    "langgraph==1.0.1",
+    "langgraph-checkpoint==3.0.0",
+
+    # Web Framework
+    "fastapi==0.119.0",
+    "uvicorn==0.37.0",
+
+    # Observability & Tracing
+    "langsmith==0.4.37",
+    "python-dotenv==1.1.1",
+
+    # Ollama Client
+    "ollama==0.6.0",
+]
+
+[tool.uv]
+# Optional settings for uv
+# Example: extra tools or dev dependencies can go here

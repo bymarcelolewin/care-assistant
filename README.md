@@ -28,7 +28,6 @@ The application includes three draggable windows for inspecting the agent's beha
 ### Prerequisites
 
 Before you begin, ensure you have:
-- **Python 3.10+** (tested with Python 3.13)
 - **[uv](https://github.com/astral-sh/uv)** package manager - Install with:
   ```bash
   curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -42,8 +41,6 @@ Before you begin, ensure you have:
 git clone https://github.com/bymarcelolewin/care-assistant.git
 cd care-assistant
 ```
-
-All subsequent commands should be run from this `care-assistant` directory.
 
 **2. Pull an Ollama model**
 ```bash
@@ -59,6 +56,8 @@ ollama list
 
 **Note:** The code is configured to use `llama3.2` by default. You can change the model in [app/graph/nodes.py](app/graph/nodes.py#L32) to use any Ollama model.
 
+All subsequent commands should be run from this `care-assistant` directory.
+
 **3. Create and activate virtual environment**
 ```bash
 # Create virtual environment with uv
@@ -70,8 +69,8 @@ source .venv/bin/activate
 
 **4. Install Python dependencies**
 ```bash
-# Install all dependencies from requirements.txt
-uv pip install -r requirements.txt
+# Install all dependencies from pyproject.toml
+uv sync
 ```
 
 **5. (Optional) Configure LangSmith for tracing**
