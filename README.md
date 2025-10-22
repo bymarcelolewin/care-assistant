@@ -6,14 +6,6 @@
 
 A hands-on learning application demonstrating core LangGraph concepts through a practical example: an AI-powered insurance coverage assistant that helps users understand their healthcare benefits.
 
-**What you get:**
-- Modern chat interface with ❤️ CARE Assistant branding
-- Natural language name input ("I'm Sarah" works!)
-- Personalized welcome messages with member history
-- Real-time progress messages during tool execution
-- Three draggable observability windows (Memory, Graph, Execution Steps) - toggle via checkboxes in header
-- Session persistence across browser refreshes
-
 ### Using Observability Windows
 
 The application includes three draggable windows for inspecting the agent's behavior:
