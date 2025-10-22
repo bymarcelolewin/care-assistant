@@ -62,7 +62,7 @@ ollama list
 **3. Create and activate virtual environment**
 ```bash
 # Create virtual environment with uv
-uv venv
+uv venv --python 3.13
 
 # Activate (macOS/Linux)
 source .venv/bin/activate
