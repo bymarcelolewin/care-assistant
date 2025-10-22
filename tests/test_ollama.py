@@ -10,7 +10,7 @@ It verifies that we can:
 Run with: python test_ollama.py
 """
 
-from langchain_community.llms import Ollama
+from langchain_ollama import OllamaLLM
 
 
 def test_ollama_connection():
@@ -27,7 +27,7 @@ def test_ollama_connection():
     print(f"\n1️⃣  Initializing Ollama with model: {model_name}")
 
     try:
-        llm = Ollama(
+        llm = OllamaLLM(
             model=model_name,
             temperature=0.7,  # Controls randomness (0.0 = deterministic, 1.0 = creative)
         )
@@ -68,7 +68,7 @@ def test_structured_prompt():
     model_name = "llama3.3:70b-instruct-q4_K_S"
 
     try:
-        llm = Ollama(model=model_name, temperature=0.7)
+        llm = OllamaLLM(model=model_name, temperature=0.7)
 
         prompt = """You are an insurance coverage assistant.
 A user asks: "What's the difference between a copay and a deductible?"
