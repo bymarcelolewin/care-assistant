@@ -28,6 +28,7 @@ The application includes three draggable windows for inspecting the agent's beha
 ### Prerequisites
 
 Before you begin, ensure you have:
+- **Python 3.12 or 3.13** (required: >=3.12, <3.14)
 - **[uv](https://github.com/astral-sh/uv)** package manager - Install with:
   ```bash
   curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -58,22 +59,18 @@ ollama list
 
 All subsequent commands should be run from this `care-assistant` directory.
 
-**3. Create and activate virtual environment**
+**3. Install Python dependencies**
 ```bash
-# Create virtual environment with uv
-uv venv --python 3.13
-
-# Activate (macOS/Linux)
-source .venv/bin/activate
-```
-
-**4. Install Python dependencies**
-```bash
-# Install all dependencies from pyproject.toml
+# Install all dependencies and create virtual environment automatically
 uv sync
 ```
 
-**5. (Optional) Configure LangSmith for tracing**
+This single command will:
+- Create a virtual environment in `.venv/` (if it doesn't exist)
+- Install Python 3.13 (as specified in pyproject.toml)
+- Install all project dependencies
+
+**4. (Optional) Configure LangSmith for tracing**
 
 If you want cloud-based observability (optional):
 ```bash
@@ -87,7 +84,7 @@ cp .env.example .env
 
 **Note:** The app works perfectly without LangSmith.
 
-**6. Build the frontend**
+**5. Build the frontend**
 ```bash
 cd frontend
 npm install
@@ -97,7 +94,7 @@ cd ..
 
 This creates the static frontend files in `frontend/out/` that the backend will serve.
 
-**7. Verify installation**
+**6. Verify installation**
 ```bash
 # Test Ollama integration
 python tests/test_ollama.py
@@ -141,7 +138,7 @@ This is a **learning-focused POC** designed to demonstrate:
 
 ## 🏗️ Architecture
 
-- **Backend**: Python 3.13 with FastAPI
+- **Backend**: Python 3.12-3.13 with FastAPI
 - **LLM Framework**: LangGraph 1.0.1 + LangChain 1.0.2
 - **Local LLM**: Ollama (default: llama3.2, configurable)
 - **Observability**: LangSmith (optional cloud tracing)

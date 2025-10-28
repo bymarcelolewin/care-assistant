@@ -3,7 +3,7 @@ name = "care-assistant"
 version = "0.9.0"
 description = "CARE Assistant - Coverage Analysis and Recommendation Engine"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.12,<3.14"
 dependencies = [
     # LangChain & LangGraph
     "langchain==1.0.2",
@@ -26,5 +26,5 @@ dependencies = [
 ]
 
 [tool.uv]
-# Optional settings for uv
-# Example: extra tools or dev dependencies can go here
+python-version = "3.13"
+venv = ".venv"
